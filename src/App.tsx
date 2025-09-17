@@ -78,10 +78,9 @@ export default function App() {
       // Counselor views
       case "counselor-dashboard":
       case "clients":
-      case "schedule":
       case "sessions":
       case "reports":
-        return <CounselorInterface />;
+        return <CounselorInterface currentView={currentView} />;
 
       // Admin views
       case "admin-dashboard":
@@ -100,7 +99,7 @@ export default function App() {
         if (userType === "student") {
           return <Dashboard onViewChange={setCurrentView} />;
         } else if (userType === "counselor") {
-          return <CounselorInterface />;
+          return <CounselorInterface currentView="counselor-dashboard" />;
         } else {
           return <AdminInterface />;
         }

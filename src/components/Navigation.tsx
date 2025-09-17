@@ -52,9 +52,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
         return [
           { id: 'counselor-dashboard', label: 'Dashboard', icon: Home },
           { id: 'clients', label: 'My Clients', icon: Users },
-          { id: 'schedule', label: 'Schedule', icon: Calendar },
           { id: 'sessions', label: 'Sessions', icon: MessageCircle },
-          { id: 'resources', label: 'Clinical Resources', icon: BookOpen },
           { id: 'reports', label: 'Reports', icon: BarChart3 },
         ];
       case 'admin':
@@ -131,7 +129,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
               return (
                 <Button
                   key={item.id}
-                  variant={currentView === item.id ? "default" : "ghost"}
+                  variant={currentView === item.id || (currentView === 'schedule' && item.id === 'counselor-dashboard') ? "default" : "ghost"}
                   className="w-full justify-start"
                   onClick={() => {
                     onViewChange(item.id);
