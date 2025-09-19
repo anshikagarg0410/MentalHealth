@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -40,6 +39,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 // Define props interface
 interface CounselorInterfaceProps {
   currentView: string;
+  onViewChange: (view: string) => void;
 }
 
 interface Client {
@@ -64,6 +64,7 @@ interface Appointment {
   status: 'scheduled' | 'completed' | 'cancelled';
   location: string;
   duration: string;
+  locationType: 'online' | 'offline';
 }
 
 interface SessionFeedback {
@@ -82,7 +83,7 @@ interface ProgressEntry {
 }
 
 // Accept currentView prop
-export function CounselorInterface({ currentView }: CounselorInterfaceProps) {
+export function CounselorInterface({ currentView, onViewChange }: CounselorInterfaceProps) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
   const [selectedStudentForReport, setSelectedStudentForReport] = useState<Client | null>(null);
@@ -95,14 +96,17 @@ export function CounselorInterface({ currentView }: CounselorInterfaceProps) {
     { label: 'Active Clients', value: '28', icon: Users, color: 'text-blue-600' },
     { label: 'This Week Sessions', value: '15', icon: CalendarIcon, color: 'text-green-600' },
     { label: 'Crisis Interventions', value: '3', icon: AlertTriangle, color: 'text-red-600' },
-    { label: 'Completion Rate', value: '87%', icon: TrendingUp, color: 'text-purple-600' }
+    { label: 'Total Clients Cured', value: '87', icon: CheckCircle, color: 'text-purple-600' }
   ];
 
   const upcomingAppointments: Appointment[] = [
-    { id: '1', clientName: 'Anonymous Student A', date: 'Today', time: '10:00 AM', type: 'individual', status: 'scheduled', location: 'Room 205', duration: '50 min' },
-    { id: '2', clientName: 'Anonymous Student B', date: 'Today', time: '2:00 PM', type: 'crisis', status: 'scheduled', location: 'Crisis Room', duration: '60 min' },
-    { id: '3', clientName: 'Group Therapy - Anxiety', date: 'Tomorrow', time: '4:00 PM', type: 'group', status: 'scheduled', location: 'Group Room A', duration: '90 min' }
+    { id: '1', clientName: 'Anonymous Student A', date: 'Today', time: '10:00 AM', type: 'individual', status: 'scheduled', location: 'Room 205', duration: '50 min', locationType: 'offline' },
+    { id: '2', clientName: 'Anonymous Student B', date: 'Today', time: '2:00 PM', type: 'crisis', status: 'scheduled', location: 'Crisis Room', duration: '60 min', locationType: 'offline' },
+    { id: '3', clientName: 'Group Therapy - Anxiety', date: 'Tomorrow', time: '4:00 PM', type: 'group', status: 'scheduled', location: 'Online', duration: '90 min', locationType: 'online' }
   ];
+  
+  const onlineAppointments = upcomingAppointments.filter(appointment => appointment.locationType === 'online');
+  const offlineAppointments = upcomingAppointments.filter(appointment => appointment.locationType === 'offline');
 
   const recentClients: Client[] = [
     { id: '1', name: 'Student #1847', age: 20, riskLevel: 'medium', lastSession: '2 days ago', nextSession: 'Today, 10:00 AM', sessionCount: 8, status: 'active', primaryConcern: 'Academic anxiety', notes: 'Making good progress with coping strategies. Continue CBT techniques.' },
@@ -163,9 +167,12 @@ export function CounselorInterface({ currentView }: CounselorInterfaceProps) {
   const handleSendMessage = (clientId?: string) => { const target = clientId ? `client ${clientId}` : 'selected client'; alert(`Sending message to ${target}`); };
   const handleScheduleAppointment = (clientId?: string) => { const target = clientId ? `client ${clientId}` : 'selected client'; alert(`Scheduling appointment for ${target}`); };
   const handleCrisisAction = (action: string) => { alert(`${action} executed for crisis intervention`); };
-  const handleQuickAction = (action: string) => { /* ... */ };
   const handleResourceAction = (resource: string) => { alert(`Accessing ${resource}`); };
   const handleReportGeneration = (reportType: string) => { alert(`Generating ${reportType}...`); };
+  const handleViewReport = (client: Client) => {
+    setSelectedStudentForReport(client);
+    onViewChange('reports');
+  };
 
   const viewDetails = {
     'counselor-dashboard': {
@@ -247,15 +254,15 @@ export function CounselorInterface({ currentView }: CounselorInterfaceProps) {
           <CardHeader><CardTitle>Calendar</CardTitle></CardHeader>
           <CardContent><Calendar mode="single" selected={selectedDate} onSelect={(date) => date && setSelectedDate(date)} className="rounded-md border" /></CardContent>
         </Card>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Today's Appointments</CardTitle>
+              <CardTitle>Online Appointments</CardTitle>
               <CardDescription>{selectedDate.toDateString()}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {upcomingAppointments.map((appointment) => (
+                {onlineAppointments.map((appointment) => (
                   <div key={appointment.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50">
                     <div className="flex items-center gap-4">
                       <div className="text-center"><p className="font-semibold text-primary">{appointment.time}</p><p className="text-xs text-muted-foreground">{appointment.duration}</p></div>
@@ -271,19 +278,29 @@ export function CounselorInterface({ currentView }: CounselorInterfaceProps) {
               </div>
             </CardContent>
           </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Offline Appointments</CardTitle>
+              <CardDescription>{selectedDate.toDateString()}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {offlineAppointments.map((appointment) => (
+                  <div key={appointment.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50">
+                    <div className="flex items-center gap-4">
+                      <div className="text-center"><p className="font-semibold text-primary">{appointment.time}</p><p className="text-xs text-muted-foreground">{appointment.duration}</p></div>
+                      <div className="flex-1"><p className="font-medium">{appointment.clientName}</p><div className="flex items-center gap-2 mt-1"><Badge variant="outline" className="text-xs">{appointment.type}</Badge><span className="text-sm text-muted-foreground">{appointment.location}</span></div></div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={() => handleStartSession(appointment.id)}>Start Session</Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
-      <Card>
-        <CardHeader><CardTitle>Quick Actions</CardTitle></CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex-col" onClick={() => handleQuickAction('Schedule Session')}><Plus className="h-6 w-6 mb-2" /><span>Schedule Session</span></Button>
-            <Button variant="outline" className="h-20 flex-col" onClick={() => handleQuickAction('Send Message')}><MessageCircle className="h-6 w-6 mb-2" /><span>Send Message</span></Button>
-            <Button variant="outline" className="h-20 flex-col" onClick={() => handleQuickAction('Add Notes')}><FileText className="h-6 w-6 mb-2" /><span>Add Notes</span></Button>
-            <Button variant="outline" className="h-20 flex-col" onClick={() => handleQuickAction('Crisis Protocol')}><AlertTriangle className="h-6 w-6 mb-2" /><span>Crisis Protocol</span></Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 
@@ -316,7 +333,7 @@ export function CounselorInterface({ currentView }: CounselorInterfaceProps) {
           <Card>
             <CardHeader><CardTitle>Client Details</CardTitle><CardDescription>{filteredClients.find(c => c.id === selectedClient)?.name}</CardDescription></CardHeader>
             <CardContent className="space-y-6">
-              {(() => { const client = filteredClients.find(c => c.id === selectedClient); if (!client) return null; return ( <> <div className="grid grid-cols-2 gap-4"><div><label className="text-sm font-medium">Risk Level</label><Select defaultValue={client.riskLevel}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="low">Low Risk</SelectItem><SelectItem value="medium">Medium Risk</SelectItem><SelectItem value="high">High Risk</SelectItem></SelectContent></Select></div><div><label className="text-sm font-medium">Status</label><Select defaultValue={client.status}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem><SelectItem value="completed">Completed</SelectItem></SelectContent></Select></div></div><div><label className="text-sm font-medium">Session Notes</label><Textarea defaultValue={client.notes} placeholder="Add session notes..." className="mt-2" rows={4} /></div><div className="flex gap-2"><Button className="bg-primary hover:bg-primary/90" onClick={handleSaveNotes} disabled={isSavingNotes}><Save className="mr-2 h-4 w-4" />{isSavingNotes ? 'Saving...' : 'Save Changes'}</Button><Button variant="outline" onClick={() => handleSendMessage(selectedClient)}><MessageCircle className="mr-2 h-4 w-4" />Send Message</Button><Button variant="outline" onClick={() => handleScheduleAppointment(selectedClient)}><CalendarIcon className="mr-2 h-4 w-4" />Schedule</Button></div></> ); })()}
+              {(() => { const client = filteredClients.find(c => c.id === selectedClient); if (!client) return null; return ( <> <div className="grid grid-cols-2 gap-4"><div><label className="text-sm font-medium">Risk Level</label><Select defaultValue={client.riskLevel}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="low">Low Risk</SelectItem><SelectItem value="medium">Medium Risk</SelectItem><SelectItem value="high">High Risk</SelectItem></SelectContent></Select></div><div><label className="text-sm font-medium">Status</label><Select defaultValue={client.status}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem><SelectItem value="completed">Completed</SelectItem></SelectContent></Select></div></div><div><label className="text-sm font-medium">Session Notes</label><Textarea defaultValue={client.notes} placeholder="Add session notes..." className="mt-2" rows={4} /></div><div className="flex gap-2 flex-wrap"><Button className="bg-primary hover:bg-primary/90" onClick={handleSaveNotes} disabled={isSavingNotes}><Save className="mr-2 h-4 w-4" />{isSavingNotes ? 'Saving...' : 'Save Changes'}</Button><Button variant="outline" onClick={() => handleSendMessage(selectedClient)}><MessageCircle className="mr-2 h-4 w-4" />Send Message</Button><Button variant="outline" onClick={() => handleScheduleAppointment(selectedClient)}><CalendarIcon className="mr-2 h-4 w-4" />Schedule</Button><Button variant="outline" onClick={() => handleViewReport(client)}><FileText className="mr-2 h-4 w-4" />View Report</Button></div></> ); })()}
             </CardContent>
           </Card>
         )}

@@ -8,6 +8,7 @@ import { PeerSupport } from "./components/PeerSupport";
 import { AdminDashboard } from "./components/AdminDashboard";
 import { AdminInterface } from "./components/AdminInterface";
 import { CounselorInterface } from "./components/CounselorInterface";
+import { CounselorProfile } from "./components/CounselorProfile";
 import { LandingPage } from "./components/LandingPage";
 import { AuthPage } from "./components/AuthPage";
 
@@ -80,7 +81,9 @@ export default function App() {
       case "clients":
       case "sessions":
       case "reports":
-        return <CounselorInterface currentView={currentView} />;
+        return <CounselorInterface currentView={currentView} onViewChange={setCurrentView} />;
+      case "profile":
+        return <CounselorProfile />;
 
       // Admin views
       case "admin-dashboard":
@@ -99,7 +102,7 @@ export default function App() {
         if (userType === "student") {
           return <Dashboard onViewChange={setCurrentView} />;
         } else if (userType === "counselor") {
-          return <CounselorInterface currentView="counselor-dashboard" />;
+          return <CounselorInterface currentView="counselor-dashboard" onViewChange={setCurrentView} />;
         } else {
           return <AdminInterface />;
         }

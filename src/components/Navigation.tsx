@@ -11,7 +11,8 @@ import {
   X,
   Brain,
   Shield,
-  LogOut
+  LogOut,
+  User as UserIcon
 } from 'lucide-react';
 
 interface UserData {
@@ -54,6 +55,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
           { id: 'clients', label: 'My Clients', icon: Users },
           { id: 'sessions', label: 'Sessions', icon: MessageCircle },
           { id: 'reports', label: 'Reports', icon: BarChart3 },
+          { id: 'profile', label: 'Profile', icon: UserIcon },
         ];
       case 'admin':
         return [
