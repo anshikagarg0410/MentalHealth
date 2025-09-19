@@ -31,29 +31,29 @@ export function Dashboard({ onViewChange }: DashboardProps) {
   const quickActions = [
     {
       id: 'chat',
-      title: 'Talk to AI Assistant',
-      description: 'Get immediate support and coping strategies',
+      title: 'Chat with AI Friend',
+      description: 'For moments when you need to talk right away. A private, judgment-free chat available 24/7.',
       icon: MessageCircle,
       color: 'bg-blue-500'
     },
     {
       id: 'booking',
-      title: 'Book Counseling',
-      description: 'Schedule appointment with professional counselor',
+      title: 'Talk to a Counselor',
+      description: " You don't have to navigate this alone. Connect with a licensed therapist for expert, one-on-one guidance on your journey.",
       icon: Calendar,
       color: 'bg-green-500'
     },
     {
       id: 'resources',
-      title: 'Learning Resources',
-      description: 'Access videos, guides, and wellness tools',
+      title: 'Explore Resources',
+      description: 'Equip yourself for the road ahead. Access articles, workshops, and strategies to build lasting mental resilience.',
       icon: BookOpen,
       color: 'bg-purple-500'
     },
     {
       id: 'forum',
       title: 'Peer Support',
-      description: 'Connect with fellow students anonymously',
+      description: "Connect with other students on similar paths. Share stories, offer support, and find encouragement in a safe space.",
       icon: Users,
       color: 'bg-orange-500'
     }
@@ -74,10 +74,10 @@ export function Dashboard({ onViewChange }: DashboardProps) {
         <div className="relative p-8 md:p-12">
           <div className="max-w-3xl">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              Welcome to Your Mental Wellness Journey
+              Student Life is Tough. Your Support Shouldn't Be
             </h1>
             <p className="text-lg md:text-xl mb-6 opacity-90">
-              Access confidential support, resources, and connect with peers in a safe space designed for college students.
+              You've found a confidential space to pause, breathe, and find the support you need. We're here to help you navigate it all
             </p>
             <Button 
               onClick={() => onViewChange('chat')} 
@@ -85,7 +85,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100"
             >
-              Start AI Chat <MessageCircle className="ml-2 h-4 w-4" />
+              Chat with a Friendly Listener<MessageCircle className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -93,7 +93,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-2xl mb-6">Quick Actions</h2>
+        <h2 className="text-2xl mb-6">What's on your mind?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {quickActions.map((action) => {
             const Icon = action.icon;
@@ -122,7 +122,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
 
       {/* Wellness Overview */}
       <div>
-        <h2 className="text-2xl mb-6">Your Wellness Overview</h2>
+        <h2 className="text-2xl mb-6">Your Journey So Far</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {wellnessStats.map((stat, index) => {
             const Icon = stat.icon;
@@ -143,8 +143,8 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       <div className="grid md:grid-cols-2 gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Today's Mindfulness</CardTitle>
-            <CardDescription>Take a moment for yourself</CardDescription>
+            <CardTitle>Take a Breather</CardTitle>
+            <CardDescription>A quick pause can make a big difference</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <ImageWithFallback 
@@ -153,19 +153,19 @@ export function Dashboard({ onViewChange }: DashboardProps) {
               className="w-full h-32 object-cover rounded-lg"
             />
             <p className="text-sm">
-              Start your day with a 5-minute guided breathing exercise to center yourself and reduce anxiety.
+              Try this 5-minute guided breathing exercise to find some calm and reset your day.
             </p>
             <Button variant="outline" className="w-full">
               <Smile className="mr-2 h-4 w-4" />
-              Start 5-Min Meditation
+              Start 5-Min Reset
             </Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Campus Resources</CardTitle>
-            <CardDescription>Get help when you need it</CardDescription>
+            <CardTitle>Need to Talk to Someone?</CardTitle>
+            <CardDescription>Help is always available.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-3">

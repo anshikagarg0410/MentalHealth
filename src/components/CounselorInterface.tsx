@@ -90,6 +90,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
   const [searchTerm, setSearchTerm] = useState('');
   const [isSchedulingSession, setIsSchedulingSession] = useState(false);
   const [isSavingNotes, setIsSavingNotes] = useState(false);
+  const [showResponse, setShowResponse] = useState(false);
 
   // Mock data remains the same
   const counselorStats = [
@@ -199,7 +200,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
   const renderDashboard = () => (
     <div className="space-y-6">
       {/* Crisis Alerts */}
-      {crisisAlerts.length > 0 && (
+      {showResponse && crisisAlerts.length > 0 && (
         <Card className="border-red-200 bg-red-50 dark:bg-red-950 dark:border-red-800">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-300">
@@ -333,7 +334,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
           <Card>
             <CardHeader><CardTitle>Client Details</CardTitle><CardDescription>{filteredClients.find(c => c.id === selectedClient)?.name}</CardDescription></CardHeader>
             <CardContent className="space-y-6">
-              {(() => { const client = filteredClients.find(c => c.id === selectedClient); if (!client) return null; return ( <> <div className="grid grid-cols-2 gap-4"><div><label className="text-sm font-medium">Risk Level</label><Select defaultValue={client.riskLevel}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="low">Low Risk</SelectItem><SelectItem value="medium">Medium Risk</SelectItem><SelectItem value="high">High Risk</SelectItem></SelectContent></Select></div><div><label className="text-sm font-medium">Status</label><Select defaultValue={client.status}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem><SelectItem value="completed">Completed</SelectItem></SelectContent></Select></div></div><div><label className="text-sm font-medium">Session Notes</label><Textarea defaultValue={client.notes} placeholder="Add session notes..." className="mt-2" rows={4} /></div><div className="flex gap-2 flex-wrap"><Button className="bg-primary hover:bg-primary/90" onClick={handleSaveNotes} disabled={isSavingNotes}><Save className="mr-2 h-4 w-4" />{isSavingNotes ? 'Saving...' : 'Save Changes'}</Button><Button variant="outline" onClick={() => handleSendMessage(selectedClient)}><MessageCircle className="mr-2 h-4 w-4" />Send Message</Button><Button variant="outline" onClick={() => handleScheduleAppointment(selectedClient)}><CalendarIcon className="mr-2 h-4 w-4" />Schedule</Button><Button variant="outline" onClick={() => handleViewReport(client)}><FileText className="mr-2 h-4 w-4" />View Report</Button></div></> ); })()}
+              {(() => { const client = filteredClients.find(c => c.id === selectedClient); if (!client) return null; return ( <> <div className="grid grid-cols-2 gap-4"><div><label className="text-sm font-medium">Risk Level</label><Select defaultValue={client.riskLevel}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="low">Low Risk</SelectItem><SelectItem value="medium">Medium Risk</SelectItem><SelectItem value="high">High Risk</SelectItem></SelectContent></Select></div><div><label className="text-sm font-medium">Status</label><Select defaultValue={client.status}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem><SelectItem value="completed">Completed</SelectItem></SelectContent></Select></div></div><div><label className="text-sm font-medium">Session Notes</label><Textarea defaultValue={client.notes} placeholder="Add session notes..." className="mt-2" rows={4} /></div><div className="grid grid-cols-2 gap-2"><Button className="w-full bg-primary hover:bg-primary/90" onClick={handleSaveNotes} disabled={isSavingNotes}><Save className="mr-2 h-4 w-4" />{isSavingNotes ? 'Saving...' : 'Save Changes'}</Button><Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => handleSendMessage(selectedClient)}><MessageCircle className="mr-2 h-4 w-4" />Send Message</Button><Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => handleScheduleAppointment(selectedClient)}><CalendarIcon className="mr-2 h-4 w-4" />Schedule</Button><Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => handleViewReport(client)}><FileText className="mr-2 h-4 w-4" />View Report</Button></div></> ); })()}
             </CardContent>
           </Card>
         )}
@@ -398,104 +399,113 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
     </div>
   );
   
-  const renderReports = () => (
-    <div className="space-y-6">
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
-          <Card>
-            <CardHeader>
-              <CardTitle>Browse Students</CardTitle>
-              <CardDescription>Select a student to view their report.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search students..." className="pl-10" />
-              </div>
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {recentClients.map(client => (
-                  <div key={client.id} className={`p-3 border rounded-lg cursor-pointer ${selectedStudentForReport?.id === client.id ? 'bg-primary/10 border-primary' : ''}`} onClick={() => setSelectedStudentForReport(client)}>
-                    <p className="font-medium">{client.name}</p>
-                    <p className="text-xs text-muted-foreground">{client.primaryConcern}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="lg:col-span-2">
-          {selectedStudentForReport ? (
+  const renderReports = () => {
+    const clientFeedback = selectedStudentForReport
+      ? feedbackData.filter(f => f.clientId === selectedStudentForReport.id)
+      : [];
+    const avgRating = clientFeedback.length > 0
+      ? (clientFeedback.reduce((acc, curr) => acc + curr.rating, 0) / clientFeedback.length).toFixed(1)
+      : 'N/A';
+  
+    return (
+      <div className="space-y-6">
+        <div className="grid lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-1">
             <Card>
               <CardHeader>
-                <CardTitle>Report for {selectedStudentForReport.name}</CardTitle>
-                <CardDescription>Viewing progress and key metrics.</CardDescription>
+                <CardTitle>Browse Students</CardTitle>
+                <CardDescription>Select a student to view their report.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-2xl font-bold text-primary">{selectedStudentForReport.sessionCount}</p><p className="text-sm text-muted-foreground">Total Sessions</p></div>
-                  <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-2xl font-bold text-primary">{selectedStudentForReport.riskLevel}</p><p className="text-sm text-muted-foreground">Risk Level</p></div>
+              <CardContent>
+                <div className="relative mb-4">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search students..." className="pl-10" />
                 </div>
-                <div>
-                  <h4 className="font-medium mb-2">Progress Over Time</h4>
-                  <div className="h-60">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={studentProgressData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="week" />
-                        <YAxis />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="mood" stroke="#8884d8" name="Mood (1-5)" />
-                        <Line type="monotone" dataKey="resources" stroke="#82ca9d" name="Resources Accessed" />
-                        <Line type="monotone" dataKey="flags" stroke="#ff7c7c" name="Flagged Conversations" />
-                      </LineChart>
-                    </ResponsiveContainer>
+                <div className="space-y-2 max-h-96 overflow-y-auto">
+                  {recentClients.map(client => (
+                    <div key={client.id} className={`p-3 border rounded-lg cursor-pointer ${selectedStudentForReport?.id === client.id ? 'bg-primary/10 border-primary' : ''}`} onClick={() => setSelectedStudentForReport(client)}>
+                      <p className="font-medium">{client.name}</p>
+                      <p className="text-xs text-muted-foreground">{client.primaryConcern}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="lg:col-span-2">
+            {selectedStudentForReport ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Report for {selectedStudentForReport.name}</CardTitle>
+                  <CardDescription>Viewing progress and key metrics.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-2xl font-bold text-primary">{selectedStudentForReport.sessionCount}</p><p className="text-sm text-muted-foreground">Total Sessions</p></div>
+                    <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-2xl font-bold text-primary">{selectedStudentForReport.riskLevel}</p><p className="text-sm text-muted-foreground">Risk Level</p></div>
                   </div>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-2">Key Engagement Metrics</h4>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-xl font-bold text-primary">4.2</p><p className="text-xs text-muted-foreground">Avg. Mood</p></div>
-                    <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-xl font-bold text-primary">14</p><p className="text-xs text-muted-foreground">Resources</p></div>
-                    <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-xl font-bold text-primary">1</p><p className="text-xs text-muted-foreground">Crisis Alerts</p></div>
+                  <div>
+                    <h4 className="font-medium mb-2">Progress Over Time</h4>
+                    <div className="h-60">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={studentProgressData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="week" />
+                          <YAxis />
+                          <Tooltip />
+                          <Line type="monotone" dataKey="mood" stroke="#8884d8" name="Mood (1-5)" />
+                          <Line type="monotone" dataKey="resources" stroke="#82ca9d" name="Resources Accessed" />
+                          <Line type="monotone" dataKey="flags" stroke="#ff7c7c" name="Flagged Conversations" />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-2">Session Feedback</h4>
-                  <div className="space-y-3">
-                    {feedbackData.filter(f => f.clientId === selectedStudentForReport.id).map(feedback => (
-                      <div key={feedback.sessionId} className="p-3 border rounded-lg">
-                        <div className="flex justify-between items-center mb-1">
-                          <div className="flex items-center gap-1">
-                            {[...Array(feedback.rating)].map((_, i) => <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />)}
+                  <div>
+                    <h4 className="font-medium mb-2">Key Engagement Metrics</h4>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-xl font-bold text-primary">4.2</p><p className="text-xs text-muted-foreground">Avg. Mood</p></div>
+                      <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-xl font-bold text-primary">{avgRating}</p><p className="text-xs text-muted-foreground">Avg. Rating</p></div>
+                      <div className="text-center p-3 bg-primary/5 rounded-lg"><p className="text-xl font-bold text-primary">1</p><p className="text-xs text-muted-foreground">Crisis Alerts</p></div>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="font-medium mb-2">Session Feedback</h4>
+                    <div className="space-y-3">
+                      {feedbackData.filter(f => f.clientId === selectedStudentForReport.id).map(feedback => (
+                        <div key={feedback.sessionId} className="p-3 border rounded-lg">
+                          <div className="flex justify-between items-center mb-1">
+                            <div className="flex items-center gap-1">
+                              {[...Array(feedback.rating)].map((_, i) => <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />)}
+                            </div>
+                            <span className="text-xs text-muted-foreground">{feedback.date}</span>
                           </div>
-                          <span className="text-xs text-muted-foreground">{feedback.date}</span>
+                          <p className="text-sm italic">"{feedback.comment}"</p>
                         </div>
-                        <p className="text-sm italic">"{feedback.comment}"</p>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-2">Download Reports</h4>
-                  <div className="space-y-2">
-                    <Button variant="outline" className="w-full justify-start"><Download className="mr-2 h-4 w-4" />Full Progress Report (PDF)</Button>
-                    <Button variant="outline" className="w-full justify-start"><Download className="mr-2 h-4 w-4" />Session Notes Summary (PDF)</Button>
+                  <div>
+                    <h4 className="font-medium mb-2">Download Reports</h4>
+                    <div className="space-y-2">
+                      <Button variant="outline" className="w-full justify-start"><Download className="mr-2 h-4 w-4" />Full Progress Report (PDF)</Button>
+                      <Button variant="outline" className="w-full justify-start"><Download className="mr-2 h-4 w-4" />Session Notes Summary (PDF)</Button>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card className="flex items-center justify-center h-full">
-              <CardContent className="text-center">
-                <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">Select a student to view their report.</p>
-              </CardContent>
-            </Card>
-          )}
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="flex items-center justify-center h-full">
+                <CardContent className="text-center">
+                  <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">Select a student to view their report.</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderContent = () => {
     switch (currentView) {
@@ -520,7 +530,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm"><Bell className="mr-2 h-4 w-4" />Alerts ({crisisAlerts.length})</Button>
+          <Button variant="outline" size="sm" onClick={() => setShowResponse(!showResponse)}><Bell className="mr-2 h-4 w-4" />Alerts ({crisisAlerts.length})</Button>
           <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleScheduleSession} disabled={isSchedulingSession}><Plus className="mr-2 h-4 w-4" />{isSchedulingSession ? 'Scheduling...' : 'New Session'}</Button>
         </div>
       </div>

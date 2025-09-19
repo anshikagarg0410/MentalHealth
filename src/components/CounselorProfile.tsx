@@ -4,7 +4,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Edit, Save, Shield, User, Mail, Phone, Briefcase , Brain} from 'lucide-react';
+import { Edit, Save, Shield, User, Mail, Phone, Briefcase, Brain, GraduationCap, Languages } from 'lucide-react';
+import { Textarea } from './ui/textarea';
 
 export function CounselorProfile() {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,9 +16,12 @@ export function CounselorProfile() {
     specialization: 'Cognitive Behavioral Therapy',
     experience: '10+ years',
     license: 'LPC12345',
+    education: 'Ph.D. in Clinical Psychology',
+    languages: 'English, Hindi',
+    bio: 'Dedicated to providing a safe and supportive space for students to navigate challenges. My approach is collaborative and client-centered, focusing on building resilience and fostering growth.',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setCounselorData(prevData => ({
       ...prevData,
@@ -101,6 +105,31 @@ export function CounselorProfile() {
                 <Input id="license" value={counselorData.license} readOnly={!isEditing} onChange={handleInputChange} className="pl-10" />
               </div>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="education">Education & Qualifications</Label>
+              <div className="relative">
+                <GraduationCap className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input id="education" value={counselorData.education} readOnly={!isEditing} onChange={handleInputChange} className="pl-10" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="languages">Languages Spoken</Label>
+              <div className="relative">
+                <Languages className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input id="languages" value={counselorData.languages} readOnly={!isEditing} onChange={handleInputChange} className="pl-10" />
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="bio">Biography</Label>
+            <Textarea
+              id="bio"
+              value={counselorData.bio}
+              readOnly={!isEditing}
+              onChange={handleInputChange}
+              placeholder="Tell students a little about yourself and your approach..."
+              rows={4}
+            />
           </div>
         </CardContent>
       </Card>

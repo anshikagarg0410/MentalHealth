@@ -43,9 +43,9 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
     switch (userType) {
       case 'student':
         return [
-          { id: 'dashboard', label: 'Dashboard', icon: Home },
-          { id: 'chat', label: 'AI Support', icon: MessageCircle },
-          { id: 'booking', label: 'Book Appointment', icon: Calendar },
+          { id: 'dashboard', label: 'Home', icon: Home },
+          { id: 'chat', label: 'AI Friend', icon: MessageCircle },
+          { id: 'booking', label: 'Counseling', icon: Calendar },
           { id: 'resources', label: 'Resources', icon: BookOpen },
           { id: 'forum', label: 'Peer Support', icon: Users },
         ];
@@ -98,13 +98,25 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
             </div>
             <div>
               <h2 className="text-lg font-semibold text-foreground">MindCare</h2>
-              <p className="text-sm text-muted-foreground">Digital Mental Wellness</p>
+              <p className="text-sm text-muted-foreground">Your campus wellness space</p>
             </div>
           </div>
 
           {/* User Info */}
           {userData && (
-            <div className="bg-muted/50 p-4 rounded-lg mb-6">
+            <div
+              className={`bg-muted/50 p-4 rounded-lg mb-6 ${
+                userData.userType === 'counselor'
+                  ? 'cursor-pointer hover:bg-muted transition-colors'
+                  : ''
+              }`}
+              onClick={() => {
+                if (userData.userType === 'counselor') {
+                  onViewChange('profile');
+                  setIsOpen(false); // Close mobile menu if open
+                }
+              }}
+            >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-primary-foreground font-medium">
@@ -160,10 +172,10 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
             <div className="bg-muted p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
                 <Shield className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">Confidential</span>
+                <span className="text-sm font-medium">Your Safe Space</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Your privacy is protected. All interactions are anonymous and secure.
+                Everything here is private and secure. It's just between us.
               </p>
             </div>
           </div>
