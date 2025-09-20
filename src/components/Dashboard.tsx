@@ -7,9 +7,14 @@ import {
   Calendar,
   BookOpen,
   Users,
-  Smile,
 } from 'lucide-react';
-;
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from './ui/carousel';
 
 interface DashboardProps {
   onViewChange: (view: string) => void;
@@ -17,9 +22,6 @@ interface DashboardProps {
 
 export function Dashboard({ onViewChange }: DashboardProps) {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
-  const handleMeditation = () => {
-    alert('Starting 5-minute guided meditation...\n\nFind a comfortable position and focus on your breathing. This feature will be integrated with meditation content.');
-  };
 
   const handleCampusCall = () => {
     alert('Campus Counseling Center\nPhone: (555) 123-HELP\n\nWould you like to be connected?');
@@ -65,6 +67,29 @@ export function Dashboard({ onViewChange }: DashboardProps) {
     { name: 'Okay', emoji: '😐' },
     { name: 'Sad', emoji: '😔' },
     { name: 'Awful', emoji: '😠' },
+  ];
+
+  const positiveQuotes = [
+    {
+      quote: "The best way to predict the future is to create it.",
+      author: "Peter Drucker",
+      image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+    },
+    {
+      quote: "Your limitation—it's only your imagination.",
+      author: "Unknown",
+      image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+    },
+    {
+      quote: "Push yourself, because no one else is going to do it for you.",
+      author: "Unknown",
+      image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+    },
+    {
+      quote: "Great things never come from comfort zones.",
+      author: "Unknown",
+      image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
+    }
   ];
 
   return (
@@ -159,22 +184,35 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       <div className="grid md:grid-cols-2 gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Take a Breather</CardTitle>
-            <CardDescription>A quick pause can make a big difference</CardDescription>
+            <CardTitle>A Moment for You</CardTitle>
+            <CardDescription>Some inspiration to brighten your day</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <ImageWithFallback
-              src="https://images.unsplash.com/photo-1630406866478-a2fca6070d25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50YWwlMjBoZWFsdGglMjBzdXBwb3J0JTIwbWVkaXRhdGlvbiUyMGNhbG18ZW58MXx8fHwxNzU3ODY1MjM2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-              alt="Meditation and mindfulness"
-              className="w-full h-32 object-cover rounded-lg"
-            />
-            <p className="text-sm">
-              Try this 5-minute guided breathing exercise to find some calm and reset your day.
-            </p>
-            <Button variant="outline" className="w-full">
-              <Smile className="mr-2 h-4 w-4" />
-              Start 5-Min Reset
-            </Button>
+          <CardContent className="flex items-center justify-center p-0">
+            <Carousel className="w-full max-w-sm">
+              <CarouselContent>
+                {positiveQuotes.map((item, index) => (
+                  <CarouselItem key={index}>
+                    <div className="p-1">
+                      <div className="relative h-64 rounded-lg overflow-hidden">
+                        <ImageWithFallback
+                          src={item.image}
+                          alt={`Inspirational quote background ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-4">
+                          <blockquote className="text-center text-white">
+                            <p className="text-lg font-semibold italic">"{item.quote}"</p>
+                            <cite className="mt-2 block text-sm opacity-80 not-italic">- {item.author}</cite>
+                          </blockquote>
+                        </div>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+            </Carousel>
           </CardContent>
         </Card>
 
@@ -190,14 +228,14 @@ export function Dashboard({ onViewChange }: DashboardProps) {
                   <p className="font-medium">Campus Counseling Center</p>
                   <p className="text-sm text-muted-foreground">Mon-Fri, 9 AM - 5 PM</p>
                 </div>
-                <Button size="sm" variant="outline">Call</Button>
+                <Button size="sm" variant="outline" onClick={handleCampusCall}>Call</Button>
               </div>
               <div className="flex justify-between items-center p-3 bg-muted rounded-lg">
                 <div>
                   <p className="font-medium">24/7 Crisis Helpline</p>
                   <p className="text-sm text-muted-foreground">Available anytime</p>
                 </div>
-                <Button size="sm" variant="outline">Call</Button>
+                <Button size="sm" variant="outline" onClick={handleCrisisCall}>Call</Button>
               </div>
             </div>
           </CardContent>

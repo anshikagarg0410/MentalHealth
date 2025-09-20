@@ -48,6 +48,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
           { id: 'booking', label: 'Counseling', icon: Calendar },
           { id: 'resources', label: 'Resources', icon: BookOpen },
           { id: 'forum', label: 'Peer Support', icon: Users },
+          { id: 'student-profile', label: 'Profile', icon: UserIcon },
         ];
       case 'counselor':
         return [
@@ -106,7 +107,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
           {userData && (
             <div
               className={`bg-muted/50 p-4 rounded-lg mb-6 ${
-                userData.userType === 'counselor'
+                userData.userType === 'counselor' || userData.userType === 'student'
                   ? 'cursor-pointer hover:bg-muted transition-colors'
                   : ''
               }`}
@@ -114,6 +115,9 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
                 if (userData.userType === 'counselor') {
                   onViewChange('profile');
                   setIsOpen(false); // Close mobile menu if open
+                } else if (userData.userType === 'student') {
+                  onViewChange('student-profile');
+                  setIsOpen(false);
                 }
               }}
             >

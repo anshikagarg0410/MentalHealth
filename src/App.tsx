@@ -9,6 +9,7 @@ import { AdminDashboard } from "./components/AdminDashboard";
 import { AdminInterface } from "./components/AdminInterface";
 import { CounselorInterface } from "./components/CounselorInterface";
 import { CounselorProfile } from "./components/CounselorProfile";
+import { StudentProfile } from "./components/StudentProfile";
 import { LandingPage } from "./components/LandingPage";
 import { AuthPage } from "./components/AuthPage";
 
@@ -75,6 +76,8 @@ export default function App() {
         return <ResourceHub />;
       case "forum":
         return <PeerSupport />;
+      case "student-profile":
+        return <StudentProfile />;
 
       // Counselor views
       case "counselor-dashboard":
