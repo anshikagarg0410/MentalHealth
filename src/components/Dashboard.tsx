@@ -1,22 +1,22 @@
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { 
-  MessageCircle, 
-  Calendar, 
-  BookOpen, 
-  Users, 
-  Heart,
+import {
+  MessageCircle,
+  Calendar,
+  BookOpen,
+  Users,
   Smile,
-  TrendingUp,
-  Clock
 } from 'lucide-react';
+;
 
 interface DashboardProps {
   onViewChange: (view: string) => void;
 }
 
 export function Dashboard({ onViewChange }: DashboardProps) {
+  const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const handleMeditation = () => {
     alert('Starting 5-minute guided meditation...\n\nFind a comfortable position and focus on your breathing. This feature will be integrated with meditation content.');
   };
@@ -59,11 +59,12 @@ export function Dashboard({ onViewChange }: DashboardProps) {
     }
   ];
 
-  const wellnessStats = [
-    { label: 'Days Active', value: '7', icon: TrendingUp },
-    { label: 'Resources Accessed', value: '12', icon: BookOpen },
-    { label: 'Mood Check-ins', value: '5', icon: Heart },
-    { label: 'Minutes Meditated', value: '45', icon: Clock }
+  const moods = [
+    { name: 'Amazing', emoji: '😄' },
+    { name: 'Good', emoji: '😊' },
+    { name: 'Okay', emoji: '😐' },
+    { name: 'Sad', emoji: '😔' },
+    { name: 'Awful', emoji: '😠' },
   ];
 
   return (
@@ -79,9 +80,9 @@ export function Dashboard({ onViewChange }: DashboardProps) {
             <p className="text-lg md:text-xl mb-6 opacity-90">
               You've found a confidential space to pause, breathe, and find the support you need. We're here to help you navigate it all
             </p>
-            <Button 
-              onClick={() => onViewChange('chat')} 
-              size="lg" 
+            <Button
+              onClick={() => onViewChange('chat')}
+              size="lg"
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100"
             >
@@ -98,8 +99,8 @@ export function Dashboard({ onViewChange }: DashboardProps) {
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
-              <Card 
-                key={action.id} 
+              <Card
+                key={action.id}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => onViewChange(action.id)}
               >
@@ -120,23 +121,38 @@ export function Dashboard({ onViewChange }: DashboardProps) {
         </div>
       </div>
 
-      {/* Wellness Overview */}
+      {/* Mood Check-in */}
       <div>
-        <h2 className="text-2xl mb-6">Your Journey So Far</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {wellnessStats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={index}>
-                <CardContent className="p-6 text-center">
-                  <Icon className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-primary">{stat.value}</div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        <h2 className="text-2xl mb-6">Daily Check-in</h2>
+        <Card>
+          <CardHeader>
+            <CardTitle>How are you feeling today?</CardTitle>
+            <CardDescription>
+              {selectedMood
+                ? `Thanks for sharing that you're feeling ${selectedMood.toLowerCase()}. We're here for you.`
+                : "Tracking your mood can help you understand it better."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-5 gap-2 sm:gap-4">
+              {moods.map((mood) => {
+                return (
+                  <Button
+                    key={mood.name}
+                    variant={selectedMood === mood.name ? 'default' : 'secondary'}
+                    className="w-full h-24 flex flex-col gap-2 items-center justify-center transition-all"
+                    onClick={() => setSelectedMood(mood.name)}
+                  >
+                    <span className="text-4xl">{mood.emoji}</span>
+                    <span className="text-xs font-medium">
+                      {mood.name}
+                    </span>
+                  </Button>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Featured Content */}
@@ -147,7 +163,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
             <CardDescription>A quick pause can make a big difference</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ImageWithFallback 
+            <ImageWithFallback
               src="https://images.unsplash.com/photo-1630406866478-a2fca6070d25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50YWwlMjBoZWFsdGglMjBzdXBwb3J0JTIwbWVkaXRhdGlvbiUyMGNhbG18ZW58MXx8fHwxNzU3ODY1MjM2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
               alt="Meditation and mindfulness"
               className="w-full h-32 object-cover rounded-lg"
