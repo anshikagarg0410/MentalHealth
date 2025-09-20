@@ -16,9 +16,10 @@ import { AuthPage } from "./components/AuthPage";
 type UserType = "student" | "counselor" | "admin";
 type AppState = "landing" | "auth" | "app";
 
-interface UserData {
+export interface UserData {
   email: string;
-  fullName: string;
+  fullName?: string;
+  username?: string;
   userType: UserType;
   college?: string;
   studentId?: string;

@@ -26,7 +26,7 @@ interface Resource {
   description: string;
   type: 'video' | 'audio' | 'article' | 'guide';
   category: string;
-  duration: string;
+  duration?: string;
   rating: number;
   views: number;
   language: string;
@@ -75,7 +75,6 @@ export function ResourceHub() {
       description: 'Practical exercises and strategies to manage academic pressure and improve study habits.',
       type: 'guide',
       category: 'academic',
-      duration: '45 min read',
       rating: 4.7,
       views: 2100,
       language: 'English',
@@ -94,7 +93,7 @@ export function ResourceHub() {
       views: 1650,
       language: 'Tamil',
       difficulty: 'beginner',
-      thumbnail: 'https://images.unsplash.com/photo-1630406866478-a2fca6070d25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50YWwlMjBoZWFsdGglMjBzdXBwb3J0JTIwbWVkaXRhdGlvbiUyMGNhbG18ZW58MXx8fHwxNzU3ODY1MjM2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      thumbnail: 'https://images.unsplash.com/photo-1630406866478-a2fca6070d25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50YWwlMjBoZWFsdGglMjBzdXBwb3J0JTIwbWVkaXRhdGlvbiUyMGNhbG18ZW58MXx8fHwxNzU3ODY1MjM2fDA&ixlib-rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
       tags: ['mindfulness', 'meditation', 'beginner']
     },
     {
@@ -103,12 +102,11 @@ export function ResourceHub() {
       description: 'Strategies for overcoming social anxiety and building meaningful relationships on campus.',
       type: 'article',
       category: 'social',
-      duration: '8 min read',
       rating: 4.5,
       views: 780,
       language: 'English',
       difficulty: 'intermediate',
-      thumbnail: 'https://images.unsplash.com/photo-1589872880544-76e896b0592c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwc3R1ZGVudHMlMjBzdHVkeWluZyUyMHRvZ2V0aGVyfGVufDF8fHx8MTc1Nzg2NTIzOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      thumbnail: 'https://images.unsplash.com/photo-1589872880544-76e896b0592c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwc3R1ZGVudHMlMjBzdHVkeWluZyUyMHRvZ2V0aGVyfGVufDF8fHx8MTc1Nzg2NTIzOXww&ixlib-rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
       tags: ['social', 'relationships', 'anxiety']
     },
     {
@@ -122,7 +120,7 @@ export function ResourceHub() {
       views: 3200,
       language: 'Hindi',
       difficulty: 'beginner',
-      thumbnail: 'https://images.unsplash.com/photo-1630406866478-a2fca6070d25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50YWwlMjBoZWFsdGglMjBzdXBwb3J0JTIwbWVkaXRhdGlvbiUyMGNhbG18ZW58MXx8fHwxNzU3ODY1MjM2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      thumbnail: 'https://images.unsplash.com/photo-1630406866478-a2fca6070d25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW50YWwlMjBoZWFsdGglMjBzdXBwb3J0JTIwbWVkaXRhdGlvbiUyMGNhbG18ZW58MXx8fHwxNzU3ODY1MjM2fDA&ixlib-rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
       tags: ['breathing', 'anxiety', 'quick relief']
     }
   ];
@@ -181,7 +179,7 @@ export function ResourceHub() {
       <div className="mb-8">
         <h1 className="text-3xl mb-2">Mental Wellness Resources</h1>
         <p className="text-muted-foreground">
-          Access videos, audio guides, articles, and tools designed specifically for college students' mental health needs.
+          Your safe space for wellness. Explore curated videos, articles, and tools to support you.
         </p>
       </div>
 
@@ -252,9 +250,11 @@ export function ResourceHub() {
                 <div className={`absolute top-3 left-3 ${typeColor} text-white p-2 rounded-full`}>
                   <TypeIcon className="h-4 w-4" />
                 </div>
-                <Badge className="absolute top-3 right-3 bg-black/50 text-white">
-                  {resource.duration}
-                </Badge>
+                {resource.duration && (
+                  <Badge className="absolute top-3 right-3 bg-black/50 text-white">
+                    {resource.duration}
+                  </Badge>
+                )}
               </div>
               
               <CardHeader>
@@ -317,29 +317,6 @@ export function ResourceHub() {
           </p>
         </div>
       )}
-
-      {/* Quick Access Tools */}
-      <Card className="mt-12">
-        <CardHeader>
-          <CardTitle>Quick Wellness Tools</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid md:grid-cols-3 gap-4">
-            <Button variant="outline" className="h-20 flex-col">
-              <Heart className="h-6 w-6 mb-2 text-red-500" />
-              <span>Mood Tracker</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col">
-              <Brain className="h-6 w-6 mb-2 text-blue-500" />
-              <span>Stress Assessment</span>
-            </Button>
-            <Button variant="outline" className="h-20 flex-col">
-              <Leaf className="h-6 w-6 mb-2 text-green-500" />
-              <span>Breathing Exercise</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

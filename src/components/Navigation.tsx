@@ -14,19 +14,7 @@ import {
   LogOut,
   User as UserIcon
 } from 'lucide-react';
-
-interface UserData {
-  email: string;
-  fullName: string;
-  userType: 'student' | 'counselor' | 'admin';
-  college?: string;
-  studentId?: string;
-  department?: string;
-  yearOfStudy?: string;
-  licenseNumber?: string;
-  specialization?: string;
-  experience?: string;
-}
+import { UserData } from '../App';
 
 interface NavigationProps {
   currentView: string;
@@ -73,6 +61,9 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
   };
 
   const menuItems = getMenuItems();
+
+  const displayName = userData ? (userData.userType === 'student' ? userData.username : userData.fullName) : '';
+  const fallbackChar = displayName ? displayName.charAt(0).toUpperCase() : '';
 
   return (
     <>
@@ -124,11 +115,11 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-primary-foreground font-medium">
-                    {userData.fullName.charAt(0).toUpperCase()}
+                    {fallbackChar}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-foreground truncate">{userData.fullName}</p>
+                  <p className="font-medium text-foreground truncate">{displayName}</p>
                   <p className="text-sm text-muted-foreground capitalize">{userData.userType}</p>
                   {userData.userType === 'student' && userData.college && (
                     <p className="text-xs text-muted-foreground truncate">{userData.college}</p>

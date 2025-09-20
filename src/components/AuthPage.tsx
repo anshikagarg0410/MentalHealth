@@ -18,11 +18,12 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
+import { UserData } from '../App';
 
 type UserType = "student" | "counselor" | "admin";
 
 interface AuthPageProps {
-  onLogin: (userType: UserType, userData: any) => void;
+  onLogin: (userType: UserType, userData: UserData) => void;
   onBack: () => void;
 }
 
@@ -31,6 +32,7 @@ interface FormData {
   password: string;
   confirmPassword?: string;
   fullName?: string;
+  username?: string;
   userType: UserType;
   college?: string;
   studentId?: string;
@@ -55,6 +57,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
     password: '',
     confirmPassword: '',
     fullName: '',
+    username: '',
     userType: 'student',
     college: '',
     studentId: '',
@@ -78,8 +81,13 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
     }
 
     if (activeTab === 'signup') {
-      if (!formData.fullName) {
+      if (formData.userType !== 'student' && !formData.fullName) {
         setError('Full name is required');
+        return false;
+      }
+      
+      if (formData.userType === 'student' && !formData.username) {
+        setError('Username is required');
         return false;
       }
 
@@ -133,19 +141,23 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
         // In real app, this would validate against backend
         setSuccess('Login successful!');
         setTimeout(() => {
-          onLogin(formData.userType, {
+          const loginData: UserData = {
             email: formData.email,
-            fullName: formData.fullName || formData.email.split('@')[0],
-            userType: formData.userType
-          });
+            userType: formData.userType,
+            ...(formData.userType === 'student'
+                ? { username: formData.email.split('@')[0] }
+                : { fullName: formData.email.split('@')[0] })
+          };
+          onLogin(formData.userType, loginData);
         }, 1000);
       } else {
         // Sign up success
         setSuccess('Welcome to our community! We\'re so happy you\'re here...');
         setTimeout(() => {
-          onLogin(formData.userType, {
+          const signupData: UserData = {
             email: formData.email,
             fullName: formData.fullName,
+            username: formData.username,
             userType: formData.userType,
             college: formData.college,
             studentId: formData.studentId,
@@ -154,7 +166,8 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
             licenseNumber: formData.licenseNumber,
             specialization: formData.specialization,
             experience: formData.experience
-          });
+          };
+          onLogin(formData.userType, signupData);
         }, 1000);
       }
     } catch (err) {
@@ -270,16 +283,16 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                 </p>
               </div>
 
-              {/* Full Name - Sign Up Only */}
+              {/* Full Name or Username - Sign Up Only */}
               {activeTab === 'signup' && (
                 <div className="space-y-2">
-                  <Label htmlFor="fullName">Full Name</Label>
+                  <Label htmlFor="nameField">{formData.userType === 'student' ? 'Username' : 'Full Name'}</Label>
                   <Input
-                    id="fullName"
+                    id="nameField"
                     type="text"
-                    placeholder="Enter your full name"
-                    value={formData.fullName}
-                    onChange={(e) => updateFormData('fullName', e.target.value)}
+                    placeholder={formData.userType === 'student' ? 'Choose a username' : 'Enter your full name'}
+                    value={formData.userType === 'student' ? formData.username : formData.fullName}
+                    onChange={(e) => updateFormData(formData.userType === 'student' ? 'username' : 'fullName', e.target.value)}
                     required
                   />
                 </div>

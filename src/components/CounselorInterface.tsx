@@ -159,7 +159,9 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
     }
   };
 
-  // Handler functions remain the same...
+  const handleUploadResource = () => {
+    alert('Navigating to resource upload page...');
+  };
   const handleScheduleSession = () => { setIsSchedulingSession(true); setTimeout(() => { setIsSchedulingSession(false); alert('Session scheduled successfully!'); }, 1500); };
   const handleStartSession = (appointmentId: string) => { alert(`Starting session for appointment ${appointmentId}`); };
   const handleVideoCall = (appointmentId: string) => { alert(`Starting video call for appointment ${appointmentId}`); };
@@ -531,6 +533,10 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={() => setShowResponse(!showResponse)}><Bell className="mr-2 h-4 w-4" />Alerts ({crisisAlerts.length})</Button>
+          <Button variant="outline" size="sm" onClick={handleUploadResource}>
+            <BookOpen className="mr-2 h-4 w-4" />
+            Add Resource
+          </Button>
           <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleScheduleSession} disabled={isSchedulingSession}><Plus className="mr-2 h-4 w-4" />{isSchedulingSession ? 'Scheduling...' : 'New Session'}</Button>
         </div>
       </div>

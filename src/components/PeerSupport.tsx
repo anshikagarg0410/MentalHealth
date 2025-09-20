@@ -56,8 +56,10 @@ export function PeerSupport() {
   const [isAnonymous, setIsAnonymous] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showNewPostForm, setShowNewPostForm] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
+    { id: 'all', label: 'All Posts', color: 'bg-gray-500' },
     { id: 'general', label: 'General Support', color: 'bg-blue-500' },
     { id: 'anxiety', label: 'Anxiety & Stress', color: 'bg-red-500' },
     { id: 'academic', label: 'Academic Pressure', color: 'bg-green-500' },
@@ -71,7 +73,7 @@ export function PeerSupport() {
       id: '1',
       title: 'Feeling overwhelmed with final exams approaching',
       content: 'Hey everyone, I\'m really struggling with the pressure of upcoming finals. I can\'t seem to focus and I\'m constantly anxious. Anyone else going through this? How do you cope?',
-      author: 'Anonymous Student',
+      author: 'Username1',
       authorId: 'anon1',
       category: 'academic',
       tags: ['finals', 'anxiety', 'study tips'],
@@ -79,14 +81,14 @@ export function PeerSupport() {
       replies: 12,
       likes: 8,
       views: 45,
-      isAnonymous: true,
+      isAnonymous: false,
       isModerated: true
     },
     {
       id: '2',
       title: 'Found a great breathing technique that really helps',
       content: 'I wanted to share this 4-7-8 breathing technique I learned. It\'s been amazing for managing my anxiety before presentations. Breathe in for 4, hold for 7, exhale for 8. Try it!',
-      author: 'Sarah M.',
+      author: 'Username2',
       authorId: 'user2',
       category: 'self-care',
       tags: ['breathing', 'anxiety', 'techniques'],
@@ -101,7 +103,7 @@ export function PeerSupport() {
       id: '3',
       title: 'Making friends in college is harder than expected',
       content: 'I\'m in my second year and still struggling to make meaningful friendships. Everyone seems to have their groups already. Feeling pretty lonely. Any advice?',
-      author: 'Anonymous Student',
+      author: 'Username3',
       authorId: 'anon3',
       category: 'social',
       tags: ['friendship', 'loneliness', 'college life'],
@@ -109,14 +111,14 @@ export function PeerSupport() {
       replies: 18,
       likes: 12,
       views: 89,
-      isAnonymous: true,
+      isAnonymous: false,
       isModerated: true
     },
     {
       id: '4',
       title: 'Dealing with perfectionism and self-criticism',
       content: 'I set impossibly high standards for myself and beat myself up when I don\'t meet them. It\'s affecting my mental health and relationships. How do you practice self-compassion?',
-      author: 'Alex R.',
+      author: 'Username4',
       authorId: 'user4',
       category: 'general',
       tags: ['perfectionism', 'self-compassion', 'mental health'],
@@ -129,11 +131,15 @@ export function PeerSupport() {
     }
   ];
 
-  const filteredPosts = posts.filter(post => 
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+   const filteredPosts = posts.filter(post => {
+    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   const handleCreatePost = () => {
     if (newPostTitle.trim() && newPostContent.trim()) {
@@ -197,23 +203,20 @@ export function PeerSupport() {
                 className="pl-10"
               />
             </div>
-            <Button variant="outline">
-              <Filter className="mr-2 h-4 w-4" />
-              Filter
-            </Button>
           </div>
 
-          {/* Category Pills */}
+          {/* Category Filters */}
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
-              <Badge 
+              <Button 
                 key={category.id} 
-                variant="outline" 
-                className="cursor-pointer hover:bg-muted"
+                variant={selectedCategory === category.id ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedCategory(category.id)}
               >
                 <div className={`w-2 h-2 rounded-full ${category.color} mr-2`} />
                 {category.label}
-              </Badge>
+              </Button>
             ))}
           </div>
 
@@ -295,7 +298,7 @@ export function PeerSupport() {
               <MessageCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">No discussions found</h3>
               <p className="text-muted-foreground">
-                Try adjusting your search terms or create a new post to start a discussion.
+                Try adjusting your search terms or filters to find relevant resources.
               </p>
             </div>
           )}
@@ -344,23 +347,6 @@ export function PeerSupport() {
                 />
               </div>
 
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  id="anonymous"
-                  checked={isAnonymous}
-                  onChange={(e) => setIsAnonymous(e.target.checked)}
-                  className="rounded"
-                />
-                <label htmlFor="anonymous" className="text-sm font-medium">
-                  Post anonymously
-                </label>
-                <Badge variant="secondary" className="text-xs">
-                  <Lock className="w-3 h-3 mr-1" />
-                  Recommended
-                </Badge>
-              </div>
-
               <div className="bg-muted p-4 rounded-lg">
                 <h4 className="font-medium mb-2">Before you post:</h4>
                 <ul className="text-sm text-muted-foreground space-y-1">
@@ -390,7 +376,7 @@ export function PeerSupport() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5" />
-                  Peer Support Groups
+                  Peer Support Channels
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">

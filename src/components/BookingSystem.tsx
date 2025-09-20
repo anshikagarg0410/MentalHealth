@@ -117,7 +117,7 @@ export function BookingSystem() {
       <div className="mb-8">
         <h1 className="text-3xl mb-2">Book Counseling Appointment</h1>
         <p className="text-muted-foreground">
-          Schedule a confidential session with our professional counselors. All appointments are private and secure.
+          Find a time that works for you with one of our friendly counselors. It's a safe, private space just for you.
         </p>
       </div>
 
@@ -154,7 +154,7 @@ export function BookingSystem() {
                           <span className="text-sm text-muted-foreground">({counselor.experience})</span>
                         </div>
                         <div className="flex flex-wrap gap-1 mb-2">
-                          {counselor.specialties.slice(0, 2).map((specialty) => (
+                          {counselor.specialties.slice(0, 3).map((specialty) => (
                             <Badge key={specialty} variant="secondary" className="text-xs">
                               {specialty}
                             </Badge>
@@ -162,6 +162,9 @@ export function BookingSystem() {
                         </div>
                         <p className="text-xs text-muted-foreground">
                           Languages: {counselor.languages.join(', ')}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Availability: {counselor.availability.join(', ')}
                         </p>
                       </div>
                     </div>
@@ -247,6 +250,15 @@ export function BookingSystem() {
               </form>
             </CardContent>
           </Card>
+          <Button 
+            onClick={handleSubmit}
+            className="w-full mt-4" 
+            size="lg"
+            disabled={!selectedDate || !selectedTime || !selectedCounselor || !bookingType}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            Book Appointment
+          </Button>
         </div>
 
         {/* Date and Time Selection */}
@@ -301,16 +313,6 @@ export function BookingSystem() {
               <p>✓ Cancel or reschedule anytime</p>
             </CardContent>
           </Card>
-
-          <Button 
-            onClick={handleSubmit}
-            className="w-full mt-4" 
-            size="lg"
-            disabled={!selectedDate || !selectedTime || !selectedCounselor || !bookingType}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            Book Appointment
-          </Button>
         </div>
       </div>
     </div>

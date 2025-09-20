@@ -1,6 +1,6 @@
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import colorPalette from '../assets/color.png';
+import colorPalette from '../assets/colors.png';
 import { 
   Heart, 
   Shield, 
@@ -67,19 +67,19 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
 
   const testimonials = [
     {
-      name: 'Priya S.',
+      name: 'Student Username',
       role: 'Computer Science Student',
       content: 'MindCare became my safe haven during exam stress. The AI felt like talking to a caring friend who was always there to listen. I finally felt understood.',
       rating: 5
     },
     {
-      name: 'Rahul M.',
+      name: 'Student Username',
       role: 'Engineering Student',
       content: 'I was hesitant at first, but MindCare made me feel genuinely cared for. The counselors didn\'t just help - they really got what I was going through as a student.',
       rating: 5
     },
     {
-      name: 'Ananya K.',
+      name: 'Student Username',
       role: 'Arts Student',
       content: 'Finding my community here changed everything. I discovered I wasn\'t the only one struggling, and together we found strength and hope.',
       rating: 5
