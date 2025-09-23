@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -7,6 +7,7 @@ import {
   Calendar,
   BookOpen,
   Users,
+  X
 } from 'lucide-react';
 import {
   Carousel,
@@ -22,6 +23,24 @@ interface DashboardProps {
 
 export function Dashboard({ onViewChange }: DashboardProps) {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
+  const [moodMessage, setMoodMessage] = useState<string>('');
+  const [showMoodCheckin, setShowMoodCheckin] = useState(true);
+  const [showMoodMessage, setShowMoodMessage] = useState(false);
+
+  useEffect(() => {
+    const lastCheckin = localStorage.getItem('lastMoodCheckin');
+    if (lastCheckin) {
+      const lastCheckinDate = new Date(lastCheckin);
+      const today = new Date();
+      if (
+        lastCheckinDate.getDate() === today.getDate() &&
+        lastCheckinDate.getMonth() === today.getMonth() &&
+        lastCheckinDate.getFullYear() === today.getFullYear()
+      ) {
+        setShowMoodCheckin(false);
+      }
+    }
+  }, []);
 
   const handleCampusCall = () => {
     alert('Campus Counseling Center\nPhone: (555) 123-HELP\n\nWould you like to be connected?');
@@ -69,6 +88,34 @@ export function Dashboard({ onViewChange }: DashboardProps) {
     { name: 'Awful', emoji: '😠' },
   ];
 
+  const moodMessages: Record<string, string[]> = {
+    Amazing: [
+      "That's fantastic! Keep shining brightly.",
+      "Awesome! Whatever you're doing, it's working.",
+      "Wonderful! Let's make today even better."
+    ],
+    Good: [
+      "Glad to hear it! Keep that positive energy flowing.",
+      "That's great! Keep riding that good wave.",
+      "Good to hear! Let's keep the momentum going."
+    ],
+    Okay: [
+      "Okay is a perfectly valid way to feel. Be gentle with yourself.",
+      "Thanks for checking in. Remember, it's okay to not be 100% all the time.",
+      "An 'okay' day is a day of balance. You're doing just fine."
+    ],
+    Sad: [
+      "It's brave to admit you're feeling sad. We're here for you.",
+      "Sending you a little extra strength today. It's okay to feel this way.",
+      "Remember, even on cloudy days, the sun is still there. Take your time."
+    ],
+    Awful: [
+      "I'm so sorry you're feeling this way. Please be kind to yourself today.",
+      "It's tough right now, but this feeling won't last forever. You are resilient.",
+      "Remember to breathe. You've survived all your bad days so far."
+    ]
+  };
+
   const positiveQuotes = [
     {
       quote: "The best way to predict the future is to create it.",
@@ -91,6 +138,15 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
     }
   ];
+
+  const handleMoodSelection = (mood: string) => {
+    setSelectedMood(mood);
+    const messages = moodMessages[mood];
+    setMoodMessage(messages[Math.floor(Math.random() * messages.length)]);
+    setShowMoodCheckin(false);
+    setShowMoodMessage(true);
+    localStorage.setItem('lastMoodCheckin', new Date().toISOString());
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
@@ -147,38 +203,59 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       </div>
 
       {/* Mood Check-in */}
-      <div>
-        <h2 className="text-2xl mb-6">Daily Check-in</h2>
+      {showMoodCheckin ? (
+        <div>
+          <h2 className="text-2xl mb-6">Daily Check-in</h2>
+          <Card>
+            <CardHeader>
+              <CardTitle>How are you feeling today?</CardTitle>
+              <CardDescription>
+                Tracking your mood can help you understand it better.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-5 gap-2 sm:gap-4">
+                {moods.map((mood) => {
+                  return (
+                    <Button
+                      key={mood.name}
+                      variant={'secondary'}
+                      className="w-full h-24 flex flex-col gap-2 items-center justify-center transition-all"
+                      onClick={() => handleMoodSelection(mood.name)}
+                    >
+                      <span className="text-4xl">{mood.emoji}</span>
+                      <span className="text-xs font-medium">
+                        {mood.name}
+                      </span>
+                    </Button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      ) : showMoodMessage ? (
         <Card>
-          <CardHeader>
-            <CardTitle>How are you feeling today?</CardTitle>
-            <CardDescription>
-              {selectedMood
-                ? `Thanks for sharing that you're feeling ${selectedMood.toLowerCase()}. We're here for you.`
-                : "Tracking your mood can help you understand it better."}
-            </CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Daily Check-in</CardTitle>
+              <CardDescription>
+                Thanks for sharing. Here's a little note for you:
+              </CardDescription>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowMoodMessage(false)}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-5 gap-2 sm:gap-4">
-              {moods.map((mood) => {
-                return (
-                  <Button
-                    key={mood.name}
-                    variant={selectedMood === mood.name ? 'default' : 'secondary'}
-                    className="w-full h-24 flex flex-col gap-2 items-center justify-center transition-all"
-                    onClick={() => setSelectedMood(mood.name)}
-                  >
-                    <span className="text-4xl">{mood.emoji}</span>
-                    <span className="text-xs font-medium">
-                      {mood.name}
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
+            <p className="text-lg italic text-center text-primary">"{moodMessage}"</p>
           </CardContent>
         </Card>
-      </div>
+      ) : null}
 
       {/* Featured Content */}
       <div className="grid md:grid-cols-2 gap-8">

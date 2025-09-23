@@ -12,6 +12,7 @@ import { StudentProfile } from "./components/StudentProfile";
 import { LandingPage } from "./components/LandingPage";
 import { AuthPage } from "./components/AuthPage";
 import { AdminProfile } from "./components/AdminProfile"; // Import the new component
+import { WellnessTools } from "./components/WellnessTools";
 
 type UserType = "student" | "counselor" | "admin";
 type AppState = "landing" | "auth" | "app";
@@ -82,6 +83,7 @@ export default function App() {
       case "booking": return <BookingSystem />;
       case "resources": return <ResourceHub />;
       case "forum": return <PeerSupport />;
+      case "wellness-tools": return <WellnessTools />;
       case "student-profile": return <StudentProfile />;
 
       // Counselor views

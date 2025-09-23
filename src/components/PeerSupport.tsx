@@ -6,12 +6,12 @@ import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Avatar, AvatarFallback } from './ui/avatar';
-import { 
-  Plus, 
-  MessageCircle, 
-  Heart, 
-  ThumbsUp, 
-  Shield, 
+import {
+  Plus,
+  MessageCircle,
+  Heart,
+  ThumbsUp,
+  Shield,
   Users,
   Search,
   Filter,
@@ -48,7 +48,72 @@ interface Reply {
   isAnonymous: boolean;
 }
 
+const initialPosts: ForumPost[] = [
+  {
+    id: '1',
+    title: 'Feeling overwhelmed with final exams approaching',
+    content: 'Hey everyone, I\'m really struggling with the pressure of upcoming finals. I can\'t seem to focus and I\'m constantly anxious. Anyone else going through this? How do you cope?',
+    author: 'Username1',
+    authorId: 'anon1',
+    category: 'academic',
+    tags: ['finals', 'anxiety', 'study tips'],
+    timestamp: new Date('2024-01-10T14:30:00'),
+    replies: 12,
+    likes: 8,
+    views: 45,
+    isAnonymous: false,
+    isModerated: true
+  },
+  {
+    id: '2',
+    title: 'Found a great breathing technique that really helps',
+    content: 'I wanted to share this 4-7-8 breathing technique I learned. It\'s been amazing for managing my anxiety before presentations. Breathe in for 4, hold for 7, exhale for 8. Try it!',
+    author: 'Username2',
+    authorId: 'user2',
+    category: 'self-care',
+    tags: ['breathing', 'anxiety', 'techniques'],
+    timestamp: new Date('2024-01-09T10:15:00'),
+    replies: 6,
+    likes: 15,
+    views: 62,
+    isAnonymous: false,
+    isModerated: true
+  },
+  {
+    id: '3',
+    title: 'Making friends in college is harder than expected',
+    content: 'I\'m in my second year and still struggling to make meaningful friendships. Everyone seems to have their groups already. Feeling pretty lonely. Any advice?',
+    author: 'Username3',
+    authorId: 'anon3',
+    category: 'social',
+    tags: ['friendship', 'loneliness', 'college life'],
+    timestamp: new Date('2024-01-08T16:45:00'),
+    replies: 18,
+    likes: 12,
+    views: 89,
+    isAnonymous: false,
+    isModerated: true
+  },
+  {
+    id: '4',
+    title: 'Dealing with perfectionism and self-criticism',
+    content: 'I set impossibly high standards for myself and beat myself up when I don\'t meet them. It\'s affecting my mental health and relationships. How do you practice self-compassion?',
+    author: 'Username4',
+    authorId: 'user4',
+    category: 'general',
+    tags: ['perfectionism', 'self-compassion', 'mental health'],
+    timestamp: new Date('2024-01-07T12:20:00'),
+    replies: 9,
+    likes: 11,
+    views: 56,
+    isAnonymous: false,
+    isModerated: true
+  }
+];
+
 export function PeerSupport() {
+  const [posts, setPosts] = useState<ForumPost[]>(initialPosts);
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [selectedPost, setSelectedPost] = useState<string | null>(null);
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
@@ -68,70 +133,7 @@ export function PeerSupport() {
     { id: 'self-care', label: 'Self-Care Tips', color: 'bg-orange-500' }
   ];
 
-  const posts: ForumPost[] = [
-    {
-      id: '1',
-      title: 'Feeling overwhelmed with final exams approaching',
-      content: 'Hey everyone, I\'m really struggling with the pressure of upcoming finals. I can\'t seem to focus and I\'m constantly anxious. Anyone else going through this? How do you cope?',
-      author: 'Username1',
-      authorId: 'anon1',
-      category: 'academic',
-      tags: ['finals', 'anxiety', 'study tips'],
-      timestamp: new Date('2024-01-10T14:30:00'),
-      replies: 12,
-      likes: 8,
-      views: 45,
-      isAnonymous: false,
-      isModerated: true
-    },
-    {
-      id: '2',
-      title: 'Found a great breathing technique that really helps',
-      content: 'I wanted to share this 4-7-8 breathing technique I learned. It\'s been amazing for managing my anxiety before presentations. Breathe in for 4, hold for 7, exhale for 8. Try it!',
-      author: 'Username2',
-      authorId: 'user2',
-      category: 'self-care',
-      tags: ['breathing', 'anxiety', 'techniques'],
-      timestamp: new Date('2024-01-09T10:15:00'),
-      replies: 6,
-      likes: 15,
-      views: 62,
-      isAnonymous: false,
-      isModerated: true
-    },
-    {
-      id: '3',
-      title: 'Making friends in college is harder than expected',
-      content: 'I\'m in my second year and still struggling to make meaningful friendships. Everyone seems to have their groups already. Feeling pretty lonely. Any advice?',
-      author: 'Username3',
-      authorId: 'anon3',
-      category: 'social',
-      tags: ['friendship', 'loneliness', 'college life'],
-      timestamp: new Date('2024-01-08T16:45:00'),
-      replies: 18,
-      likes: 12,
-      views: 89,
-      isAnonymous: false,
-      isModerated: true
-    },
-    {
-      id: '4',
-      title: 'Dealing with perfectionism and self-criticism',
-      content: 'I set impossibly high standards for myself and beat myself up when I don\'t meet them. It\'s affecting my mental health and relationships. How do you practice self-compassion?',
-      author: 'Username4',
-      authorId: 'user4',
-      category: 'general',
-      tags: ['perfectionism', 'self-compassion', 'mental health'],
-      timestamp: new Date('2024-01-07T12:20:00'),
-      replies: 9,
-      likes: 11,
-      views: 56,
-      isAnonymous: false,
-      isModerated: true
-    }
-  ];
-
-   const filteredPosts = posts.filter(post => {
+  const filteredPosts = posts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -148,6 +150,15 @@ export function PeerSupport() {
       setNewPostTitle('');
       setNewPostContent('');
       setShowNewPostForm(false);
+    }
+  };
+
+  const handleLike = (postId: string) => {
+    if (!likedPosts.has(postId)) {
+      setPosts(posts.map(p => 
+        p.id === postId ? { ...p, likes: p.likes + 1 } : p
+      ));
+      setLikedPosts(new Set(likedPosts).add(postId));
     }
   };
 
@@ -273,16 +284,18 @@ export function PeerSupport() {
                             <MessageCircle className="h-4 w-4" />
                             {post.replies}
                           </div>
-                          <div className="flex items-center gap-1">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="flex items-center gap-1"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLike(post.id);
+                            }}
+                            disabled={likedPosts.has(post.id)}
+                          >
                             <ThumbsUp className="h-4 w-4" />
                             {post.likes}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Eye className="h-4 w-4" />
-                            {post.views}
-                          </div>
-                          <Button variant="ghost" size="sm">
-                            <Flag className="h-3 w-3" />
                           </Button>
                         </div>
                       </div>
@@ -402,21 +415,17 @@ export function PeerSupport() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Heart className="h-5 w-5" />
-                  Peer Mentors
+                  Peer Moderator
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm text-muted-foreground mb-4">
-                  Connect with trained peer mentors who understand what you're going through.
+                  Connect with trained peer moderators who understand what you're going through.
                 </p>
                 <div className="space-y-2">
                   <Button variant="outline" className="w-full justify-start">
-                    <MessageCircle className="mr-2 h-4 w-4" />
-                    Chat with a Peer Mentor
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
                     <Users className="mr-2 h-4 w-4" />
-                    Become a Peer Mentor
+                    Become a Peer Moderator
                   </Button>
                   <Button variant="outline" className="w-full justify-start">
                     <Shield className="mr-2 h-4 w-4" />

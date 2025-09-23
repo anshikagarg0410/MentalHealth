@@ -6,17 +6,19 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Alert, AlertDescription } from './ui/alert';
-import { 
-  Heart, 
-  ArrowLeft, 
-  User, 
-  Mail, 
-  Lock, 
-  School, 
-  UserCheck, 
+import { Checkbox } from './ui/checkbox';
+import {
+  Heart,
+  ArrowLeft,
+  User,
+  Mail,
+  Lock,
+  School,
+  UserCheck,
   Shield,
   Eye,
-  EyeOff
+  EyeOff,
+  Phone
 } from 'lucide-react';
 import { UserData } from '../App';
 
@@ -38,10 +40,13 @@ interface FormData {
   studentId?: string;
   department?: string;
   yearOfStudy?: string;
+  institutionName?: string;
   licenseNumber?: string;
   specialization?: string;
   experience?: string;
   adminCode?: string;
+  counselorAccessCode?: string;
+  phoneNumber?: string;
 }
 
 export function AuthPage({ onLogin, onBack }: AuthPageProps) {
@@ -51,6 +56,8 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [understoodDisclaimer, setUnderstoodDisclaimer] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -63,10 +70,13 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
     studentId: '',
     department: '',
     yearOfStudy: '',
+    institutionName: '',
     licenseNumber: '',
     specialization: '',
     experience: '',
-    adminCode: ''
+    adminCode: '',
+    counselorAccessCode: '',
+    phoneNumber: '',
   });
 
   const updateFormData = (field: keyof FormData, value: string) => {
@@ -81,13 +91,13 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
     }
 
     if (activeTab === 'signup') {
-      if (formData.userType !== 'student' && !formData.fullName) {
-        setError('Full name is required');
-        return false;
-      }
-      
       if (formData.userType === 'student' && !formData.username) {
         setError('Username is required');
+        return false;
+      }
+
+      if (formData.userType !== 'student' && !formData.fullName) {
+        setError('Full name is required');
         return false;
       }
 
@@ -100,6 +110,11 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
         setError('Password must be at least 6 characters long');
         return false;
       }
+      
+      if (formData.userType === 'student' && (!agreedToTerms || !understoodDisclaimer)) {
+        setError('Please agree to all terms and conditions');
+        return false;
+      }
 
       // Role-specific validations
       if (formData.userType === 'student') {
@@ -108,15 +123,20 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
           return false;
         }
       } else if (formData.userType === 'counselor') {
-        if (!formData.licenseNumber || !formData.specialization) {
+        if (!formData.licenseNumber || !formData.specialization || !formData.phoneNumber) {
           setError('Please fill in all counselor credentials');
           return false;
         }
-      } else if (formData.userType === 'admin') {
-        if (!formData.adminCode || formData.adminCode !== 'MINDCARE2024') {
-          setError('Invalid admin access code');
+        if (formData.counselorAccessCode !== 'COUNSELOR2024') {
+          setError('Invalid counselor access code');
           return false;
         }
+      } else if (formData.userType === 'admin') {
+        if (!formData.institutionName) {
+          setError('Institution Name is required');
+          return false;
+        }
+        // Admin access code is now handled in the profile.
       }
     }
 
@@ -165,7 +185,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
             yearOfStudy: formData.yearOfStudy,
             licenseNumber: formData.licenseNumber,
             specialization: formData.specialization,
-            experience: formData.experience
+            experience: formData.experience,
           };
           onLogin(formData.userType, signupData);
         }, 1000);
@@ -283,39 +303,93 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                 </p>
               </div>
 
-              {/* Full Name or Username - Sign Up Only */}
+              {/* Sign Up Specific Fields */}
               {activeTab === 'signup' && (
-                <div className="space-y-2">
-                  <Label htmlFor="nameField">{formData.userType === 'student' ? 'Username' : 'Full Name'}</Label>
-                  <Input
-                    id="nameField"
-                    type="text"
-                    placeholder={formData.userType === 'student' ? 'Choose a username' : 'Enter your full name'}
-                    value={formData.userType === 'student' ? formData.username : formData.fullName}
-                    onChange={(e) => updateFormData(formData.userType === 'student' ? 'username' : 'fullName', e.target.value)}
-                    required
-                  />
-                </div>
+                <>
+                  {formData.userType === 'admin' ? (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="institutionName">Institution Name</Label>
+                        <Input
+                          id="institutionName"
+                          placeholder="Your institution's name"
+                          value={formData.institutionName}
+                          onChange={(e) => updateFormData('institutionName', e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Official Email</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="Your official email"
+                            className="pl-10"
+                            value={formData.email}
+                            onChange={(e) => updateFormData('email', e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Full Name or Username */}
+                      <div className="space-y-2">
+                        <Label htmlFor="nameField">{formData.userType === 'student' ? 'Username' : 'Full Name'}</Label>
+                        <Input
+                          id="nameField"
+                          type="text"
+                          placeholder={formData.userType === 'student' ? 'Choose a username' : 'Enter your full name'}
+                          value={formData.userType === 'student' ? formData.username : formData.fullName}
+                          onChange={(e) => updateFormData(formData.userType === 'student' ? 'username' : 'fullName', e.target.value)}
+                          required
+                        />
+                      </div>
+                      {/* Email for Student/Counselor */}
+                      <div className="space-y-2">
+                        <Label htmlFor="email">{formData.userType === 'student' ? 'College/University Email' : 'Email'}</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder={formData.userType === 'student' ? 'Your college email' : 'Enter your email'}
+                            className="pl-10"
+                            value={formData.email}
+                            onChange={(e) => updateFormData('email', e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+              {/* Common Fields */}
+              {activeTab === 'login' && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="pl-10"
+                        value={formData.email}
+                        onChange={(e) => updateFormData('email', e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                </>
               )}
 
-              {/* Email */}
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    className="pl-10"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Password */}
+              {/* Password Field */}
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
@@ -433,6 +507,21 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                           </Select>
                         </div>
                       </div>
+                      
+                      <div className="space-y-4 pt-2">
+                        <div className="flex items-center space-x-2">
+                          <Checkbox id="terms" checked={agreedToTerms} onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)} />
+                          <Label htmlFor="terms">
+                            I agree to the Terms & Conditions and Privacy Policy.
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox id="disclaimer" checked={understoodDisclaimer} onCheckedChange={(checked) => setUnderstoodDisclaimer(checked as boolean)} />
+                          <Label htmlFor="disclaimer">
+                            I understand this platform provides support but is not a substitute for professional medical treatment.
+                          </Label>
+                        </div>
+                      </div>
                     </div>
                   )}
 
@@ -491,30 +580,33 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                             </SelectContent>
                           </Select>
                         </div>
-                      </div>
-                    </div>
-                  )}
 
-                  {formData.userType === 'admin' && (
-                    <div className="space-y-4 p-4 bg-secondary/20 rounded-lg">
-                      <h4 className="font-medium flex items-center space-x-2">
-                        <Shield className="w-4 h-4" />
-                        <span>Administrator Access</span>
-                      </h4>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="adminCode">Admin Access Code</Label>
-                        <Input
-                          id="adminCode"
-                          type="password"
-                          placeholder="Enter admin access code"
-                          value={formData.adminCode}
-                          onChange={(e) => updateFormData('adminCode', e.target.value)}
-                          required
-                        />
-                        <p className="text-xs text-muted-foreground">
-                          Please reach out to your system administrator for the special access code
-                        </p>
+                        <div className="space-y-2">
+                          <Label htmlFor="phoneNumber">Phone Number</Label>
+                          <Input
+                            id="phoneNumber"
+                            type="tel"
+                            placeholder="Enter your phone number"
+                            value={formData.phoneNumber}
+                            onChange={(e) => updateFormData('phoneNumber', e.target.value)}
+                            required
+                          />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="counselorAccessCode">Access Code</Label>
+                          <Input
+                            id="counselorAccessCode"
+                            type="password"
+                            placeholder="Enter the access code"
+                            value={formData.counselorAccessCode}
+                            onChange={(e) => updateFormData('counselorAccessCode', e.target.value)}
+                            required
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            This code is provided by the platform administrator.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   )}
