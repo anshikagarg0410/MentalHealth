@@ -48,12 +48,11 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
         ];
       case 'admin':
         return [
-          { id: 'admin-dashboard', label: 'Dashboard', icon: Home },
+          { id: 'overview', label: 'Dashboard', icon: Home },
           { id: 'users', label: 'User Management', icon: Users },
           { id: 'content', label: 'Content', icon: BookOpen },
-          { id: 'crisis', label: 'Crisis Mgmt', icon: Shield },
           { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-          { id: 'system', label: 'System', icon: Shield },
+          { id: 'admin-profile', label: 'Profile', icon: UserIcon },
         ];
       default:
         return [];
@@ -62,8 +61,19 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
 
   const menuItems = getMenuItems();
 
-  const displayName = userData ? (userData.userType === 'student' ? userData.username : userData.fullName) : '';
+  const displayName = userData ? (userData.fullName || 'Admin') : '';
   const fallbackChar = displayName ? displayName.charAt(0).toUpperCase() : '';
+
+  const handleProfileClick = () => {
+    if (userType === 'counselor') {
+      onViewChange('profile');
+    } else if (userType === 'student') {
+      onViewChange('student-profile');
+    } else if (userType === 'admin') {
+      onViewChange('admin-profile');
+    }
+    setIsOpen(false); // Close mobile menu if open
+  };
 
   return (
     <>
@@ -83,34 +93,22 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
       <div className={`fixed left-0 top-0 h-full bg-card border-r border-border z-40 transition-transform duration-300 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0 w-64`}>
-        <div className="p-6">
+        <div className="p-6 flex flex-col h-full">
           <div className="flex items-center gap-2 mb-8">
             <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
               <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-foreground">MindCare</h2>
-              <p className="text-sm text-muted-foreground">Your campus wellness space</p>
+              <p className="text-sm text-muted-foreground">Campus Wellness</p>
             </div>
           </div>
 
           {/* User Info */}
           {userData && (
             <div
-              className={`bg-muted/50 p-4 rounded-lg mb-6 ${
-                userData.userType === 'counselor' || userData.userType === 'student'
-                  ? 'cursor-pointer hover:bg-muted transition-colors'
-                  : ''
-              }`}
-              onClick={() => {
-                if (userData.userType === 'counselor') {
-                  onViewChange('profile');
-                  setIsOpen(false); // Close mobile menu if open
-                } else if (userData.userType === 'student') {
-                  onViewChange('student-profile');
-                  setIsOpen(false);
-                }
-              }}
+              className="bg-muted/50 p-4 rounded-lg mb-6 cursor-pointer hover:bg-muted transition-colors"
+              onClick={handleProfileClick}
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
@@ -121,12 +119,6 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-foreground truncate">{displayName}</p>
                   <p className="text-sm text-muted-foreground capitalize">{userData.userType}</p>
-                  {userData.userType === 'student' && userData.college && (
-                    <p className="text-xs text-muted-foreground truncate">{userData.college}</p>
-                  )}
-                  {userData.userType === 'counselor' && userData.specialization && (
-                    <p className="text-xs text-muted-foreground truncate">{userData.specialization}</p>
-                  )}
                 </div>
               </div>
             </div>
@@ -135,10 +127,11 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
           <nav className="space-y-2">
             {menuItems.map((item) => {
               const Icon = item.icon;
+              const isActive = currentView === item.id;
               return (
                 <Button
                   key={item.id}
-                  variant={currentView === item.id || (currentView === 'schedule' && item.id === 'counselor-dashboard') ? "default" : "ghost"}
+                  variant={isActive ? "default" : "ghost"}
                   className="w-full justify-start"
                   onClick={() => {
                     onViewChange(item.id);
@@ -170,7 +163,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
                 <span className="text-sm font-medium">Your Safe Space</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Everything here is private and secure. It's just between us.
+                Everything here is private and secure.
               </p>
             </div>
           </div>

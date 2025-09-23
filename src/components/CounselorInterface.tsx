@@ -32,7 +32,8 @@ import {
   Clipboard,
   Star,
   Download,
-  Check
+  Check,
+  XIcon
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 
@@ -90,7 +91,8 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
   const [searchTerm, setSearchTerm] = useState('');
   const [isSchedulingSession, setIsSchedulingSession] = useState(false);
   const [isSavingNotes, setIsSavingNotes] = useState(false);
-  const [showResponse, setShowResponse] = useState(false);
+  const [hasNewAlerts, setHasNewAlerts] = useState(true);
+  const [isAlertVisible, setIsAlertVisible] = useState(true);
 
   // Mock data remains the same
   const counselorStats = [
@@ -202,13 +204,23 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
   const renderDashboard = () => (
     <div className="space-y-6">
       {/* Crisis Alerts */}
-      {showResponse && crisisAlerts.length > 0 && (
+      {isAlertVisible && crisisAlerts.length > 0 && (
         <Card className="border-red-200 bg-red-50 dark:bg-red-950 dark:border-red-800">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-300">
-              <AlertTriangle className="h-5 w-5" />
-              Priority Alerts ({crisisAlerts.length})
-            </CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-700 dark:text-red-300" />
+              <CardTitle className="text-red-700 dark:text-red-300">
+                Priority Alerts ({crisisAlerts.length})
+              </CardTitle>
+            </div>
+            <Button 
+              size="icon" 
+              variant="ghost"
+              className="h-8 w-8"
+              onClick={() => setIsAlertVisible(false)}
+            >
+              <XIcon className="h-4 w-4" />
+            </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -532,12 +544,29 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" size="sm" onClick={() => setShowResponse(!showResponse)}><Bell className="mr-2 h-4 w-4" />Alerts ({crisisAlerts.length})</Button>
-          <Button variant="outline" size="sm" onClick={handleUploadResource}>
-            <BookOpen className="mr-2 h-4 w-4" />
-            Add Resource
+          <Button 
+            size="sm" 
+            variant="outline"
+            className="relative"
+            onClick={() => {
+              setIsAlertVisible(!isAlertVisible);
+              if (hasNewAlerts) setHasNewAlerts(false);
+            }}
+          >
+            <Bell className="mr-2 h-4 w-4" />
+            Alerts
+            {hasNewAlerts && (
+              <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+            )}
           </Button>
-          <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleScheduleSession} disabled={isSchedulingSession}><Plus className="mr-2 h-4 w-4" />{isSchedulingSession ? 'Scheduling...' : 'New Session'}</Button>
+            <Button variant="outline" size="sm" onClick={handleUploadResource}>
+                <BookOpen className="mr-2 h-4 w-4" />
+                Add Resource
+            </Button>
+            <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleScheduleSession} disabled={isSchedulingSession}><Plus className="mr-2 h-4 w-4" />{isSchedulingSession ? 'Scheduling...' : 'New Session'}</Button>
         </div>
       </div>
       

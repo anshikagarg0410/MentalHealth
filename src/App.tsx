@@ -5,13 +5,13 @@ import { AIChat } from "./components/AIChat";
 import { BookingSystem } from "./components/BookingSystem";
 import { ResourceHub } from "./components/ResourceHub";
 import { PeerSupport } from "./components/PeerSupport";
-import { AdminDashboard } from "./components/AdminDashboard";
 import { AdminInterface } from "./components/AdminInterface";
 import { CounselorInterface } from "./components/CounselorInterface";
 import { CounselorProfile } from "./components/CounselorProfile";
 import { StudentProfile } from "./components/StudentProfile";
 import { LandingPage } from "./components/LandingPage";
 import { AuthPage } from "./components/AuthPage";
+import { AdminProfile } from "./components/AdminProfile"; // Import the new component
 
 type UserType = "student" | "counselor" | "admin";
 type AppState = "landing" | "auth" | "app";
@@ -37,8 +37,14 @@ export default function App() {
   const [currentView, setCurrentView] = useState("dashboard");
 
   const handleLogin = (type: UserType, data: UserData) => {
+    // Ensure admin has a default name for the profile page
+    const finalData = {
+        ...data,
+        fullName: data.fullName || (type === 'admin' ? 'Administrator' : data.fullName)
+    };
+    
     setUserType(type);
-    setUserData(data);
+    setUserData(finalData);
     setAppState("app");
     
     // Set appropriate default view for each user type
@@ -50,7 +56,7 @@ export default function App() {
         setCurrentView("counselor-dashboard");
         break;
       case "admin":
-        setCurrentView("admin-dashboard");
+        setCurrentView("overview");
         break;
     }
   };
@@ -62,54 +68,46 @@ export default function App() {
     setAppState("landing");
   };
 
+  const handleViewChange = (view: string) => {
+    setCurrentView(view);
+  };
+
   const renderCurrentView = () => {
     if (!userType) return null;
 
     switch (currentView) {
       // Student views
-      case "dashboard":
-        return <Dashboard onViewChange={setCurrentView} />;
-      case "chat":
-        return <AIChat />;
-      case "booking":
-        return <BookingSystem />;
-      case "resources":
-        return <ResourceHub />;
-      case "forum":
-        return <PeerSupport />;
-      case "student-profile":
-        return <StudentProfile />;
+      case "dashboard": return <Dashboard onViewChange={handleViewChange} />;
+      case "chat": return <AIChat />;
+      case "booking": return <BookingSystem />;
+      case "resources": return <ResourceHub />;
+      case "forum": return <PeerSupport />;
+      case "student-profile": return <StudentProfile />;
 
       // Counselor views
       case "counselor-dashboard":
       case "clients":
       case "sessions":
       case "reports":
-        return <CounselorInterface currentView={currentView} onViewChange={setCurrentView} />;
+        return <CounselorInterface currentView={currentView} onViewChange={handleViewChange} />;
       case "profile":
         return <CounselorProfile />;
 
       // Admin views
-      case "admin-dashboard":
+      case "overview":
       case "users":
       case "content":
-      case "crisis":
       case "analytics":
-      case "system":
-        return <AdminInterface />;
-
-      // Legacy admin view (keeping for compatibility)
-      case "admin":
-        return <AdminDashboard />;
+        return <AdminInterface currentView={currentView} onViewChange={handleViewChange} />;
+      case "admin-profile": // Add the new case for admin profile
+        return <AdminProfile userData={userData} />;
 
       default:
-        if (userType === "student") {
-          return <Dashboard onViewChange={setCurrentView} />;
-        } else if (userType === "counselor") {
-          return <CounselorInterface currentView="counselor-dashboard" onViewChange={setCurrentView} />;
-        } else {
-          return <AdminInterface />;
-        }
+        // Fallback to the default dashboard for the logged-in user type
+        if (userType === "student") return <Dashboard onViewChange={handleViewChange} />;
+        if (userType === "counselor") return <CounselorInterface currentView="counselor-dashboard" onViewChange={handleViewChange} />;
+        if (userType === "admin") return <AdminInterface currentView="overview" onViewChange={handleViewChange} />;
+        return null;
     }
   };
 
@@ -137,7 +135,7 @@ export default function App() {
     <div className="min-h-screen bg-background flex">
       <Navigation
         currentView={currentView}
-        onViewChange={setCurrentView}
+        onViewChange={handleViewChange}
         userType={userType!}
         onLogout={handleLogout}
         userData={userData}
