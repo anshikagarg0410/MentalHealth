@@ -62,7 +62,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
 
   const menuItems = getMenuItems();
 
-  const displayName = userData ? (userData.fullName || 'Admin') : '';
+  const displayName = userData ? (userData.fullName || userData.username || 'Admin') : '';
   const fallbackChar = displayName ? displayName.charAt(0).toUpperCase() : '';
 
   const handleProfileClick = () => {

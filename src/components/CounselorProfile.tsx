@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -6,20 +6,41 @@ import { Label } from './ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Edit, Save, Shield, User, Mail, Phone, Briefcase, Brain, GraduationCap, Languages } from 'lucide-react';
 import { Textarea } from './ui/textarea';
+import { UserData } from '../App';
 
-export function CounselorProfile() {
+interface CounselorProfileProps {
+  userData: UserData | null;
+}
+
+export function CounselorProfile({ userData }: CounselorProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [counselorData, setCounselorData] = useState({
-    name: 'Anshu',
-    email: 'anshu@example.com',
-    phone: '(555) 123-4567',
-    specialization: 'Cognitive Behavioral Therapy',
-    experience: '10+ years',
-    license: 'LPC12345',
-    education: 'Ph.D. in Clinical Psychology',
-    languages: 'English, Hindi',
-    bio: 'Dedicated to providing a safe and supportive space for students to navigate challenges. My approach is collaborative and client-centered, focusing on building resilience and fostering growth.',
+    name: '',
+    email: '',
+    phone: '',
+    specialization: '',
+    experience: '',
+    license: '',
+    education: '',
+    languages: '',
+    bio: '',
   });
+
+  useEffect(() => {
+    if (userData) {
+      setCounselorData({
+        name: userData.fullName || '',
+        email: userData.email || '',
+        phone: '(555) 123-4567', // This can be updated to be part of signup
+        specialization: userData.specialization || '',
+        experience: userData.experience || '',
+        license: userData.licenseNumber || '',
+        education: 'Ph.D. in Clinical Psychology', // This can be updated to be part of signup
+        languages: 'English, Hindi', // This can be updated to be part of signup
+        bio: 'Dedicated to providing a safe and supportive space for students to navigate challenges. My approach is collaborative and client-centered, focusing on building resilience and fostering growth.', // This can be updated to be part of signup
+      });
+    }
+  }, [userData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
@@ -52,8 +73,8 @@ export function CounselorProfile() {
         <CardHeader>
           <div className="flex items-center gap-4">
             <Avatar className="h-24 w-24">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>A</AvatarFallback>
+              <AvatarImage src={`https://github.com/shadcn.png`} alt={counselorData.name} />
+              <AvatarFallback>{counselorData.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
               <CardTitle className="text-2xl">{counselorData.name}</CardTitle>

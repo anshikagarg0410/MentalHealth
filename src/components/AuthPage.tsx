@@ -18,7 +18,6 @@ import {
   Shield,
   Eye,
   EyeOff,
-  Phone
 } from 'lucide-react';
 import { UserData } from '../App';
 
@@ -127,10 +126,10 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
           setError('Please fill in all counselor credentials');
           return false;
         }
-        if (formData.counselorAccessCode !== 'COUNSELOR2024') {
-          setError('Invalid counselor access code');
-          return false;
-        }
+        // if (formData.counselorAccessCode !== 'COUNSELOR2024') {
+        //   setError('Invalid counselor access code');
+        //   return false;
+        // }
       } else if (formData.userType === 'admin') {
         if (!formData.institutionName) {
           setError('Institution Name is required');
@@ -243,7 +242,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
         {/* Auth Form */}
         <Card className="border-0 shadow-2xl bg-card/95 backdrop-blur">
           <CardHeader className="space-y-4">
-            <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'login' | 'signup')}>
+            <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'login' | 'signup')}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="login">Sign In</TabsTrigger>
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>

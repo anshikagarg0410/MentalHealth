@@ -84,7 +84,7 @@ export default function App() {
       case "resources": return <ResourceHub />;
       case "forum": return <PeerSupport />;
       case "wellness-tools": return <WellnessTools />;
-      case "student-profile": return <StudentProfile />;
+      case "student-profile": return <StudentProfile userData={userData} />;
 
       // Counselor views
       case "counselor-dashboard":
@@ -93,7 +93,7 @@ export default function App() {
       case "reports":
         return <CounselorInterface currentView={currentView} onViewChange={handleViewChange} />;
       case "profile":
-        return <CounselorProfile />;
+        return <CounselorProfile userData={userData} />;
 
       // Admin views
       case "overview":
