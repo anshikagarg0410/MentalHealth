@@ -74,17 +74,17 @@ export function StudentProfile({ userData }: StudentProfileProps) {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl mb-2 text-primary">Your Profile</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             Manage your personal information and privacy settings.
           </p>
         </div>
-        <Button onClick={toggleEdit} variant={isEditing ? 'default' : 'outline'}>
+        <Button onClick={toggleEdit} variant={isEditing ? 'default' : 'outline'}style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
           {isEditing ? <Save className="mr-2 h-4 w-4" /> : <Edit className="mr-2 h-4 w-4" />}
           {isEditing ? 'Save Changes' : 'Edit Profile'}
         </Button>
       </div>
 
-      <Card>
+      <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         <CardHeader>
           <div className="flex items-center gap-4">
             <Avatar>
@@ -138,7 +138,7 @@ export function StudentProfile({ userData }: StudentProfileProps) {
         </CardContent>
       </Card>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         <Card>
           <CardHeader>
             <CardTitle>Your Activity</CardTitle>

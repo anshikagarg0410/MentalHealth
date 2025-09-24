@@ -220,6 +220,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
           <Button
             variant="ghost"
             onClick={onBack}
+            style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 600}}
             className="absolute top-4 left-4 text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -231,16 +232,16 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
               <Heart className="w-6 h-6 text-primary-foreground" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              zen
+              ZEN
             </h1>
           </div>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             We're so glad you're here. Let's take this step together.
           </p>
         </div>
 
         {/* Auth Form */}
-        <Card className="border-0 shadow-2xl bg-card/95 backdrop-blur">
+        <Card className="border-0 shadow-2xl bg-card/95 backdrop-blur" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
           <CardHeader className="space-y-4">
             <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'login' | 'signup')}>
               <TabsList className="grid w-full grid-cols-2">
@@ -249,15 +250,15 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
               </TabsList>
 
               <TabsContent value="login" className="space-y-2">
-                <CardTitle>Welcome Back, Friend</CardTitle>
-                <CardDescription>
+                <CardTitle style={{ fontSize:"20px", paddingTop:"10px", paddingLeft:"10px"}}>Welcome Back, Friend</CardTitle>
+                <CardDescription style={{paddingLeft:"10px"}}>
                   We're happy to see you again. Let's continue your wellness journey.
                 </CardDescription>
               </TabsContent>
 
               <TabsContent value="signup" className="space-y-2">
-                <CardTitle>Join Our Caring Community</CardTitle>
-                <CardDescription>
+                <CardTitle style={{ fontSize:"20px", paddingTop:"10px", paddingLeft:"10px"}}>Join Our Caring Community</CardTitle>
+                <CardDescription style={{paddingLeft:"10px"}}>
                   We're excited to be part of your mental wellness journey. You're taking a brave and important step.
                 </CardDescription>
               </TabsContent>
@@ -265,7 +266,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" style={{paddingLeft:"10px"}}>
               {/* User Type Selection */}
               <div className="space-y-2">
                 <Label htmlFor="userType">I am a...</Label>
@@ -307,8 +308,8 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                 <>
                   {formData.userType === 'admin' ? (
                     <>
-                      <div className="space-y-2">
-                        <Label htmlFor="institutionName">Institution Name</Label>
+                      <div className="space-y-2"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
+                        <Label htmlFor="institutionName" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Institution Name</Label>
                         <Input
                           id="institutionName"
                           placeholder="Your institution's name"
@@ -317,7 +318,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                           required
                         />
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                         <Label htmlFor="email">Official Email</Label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -554,10 +555,10 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="clinical">Clinical Psychology</SelectItem>
-                              <SelectItem value="counseling">Counseling Psychology</SelectItem>
+                              <SelectItem value="Counselling">Counselling Psychology</SelectItem>
                               <SelectItem value="educational">Educational Psychology</SelectItem>
                               <SelectItem value="trauma">Trauma Therapy</SelectItem>
-                              <SelectItem value="student-counseling">Student Counseling</SelectItem>
+                              <SelectItem value="student-Counselling">Student Counselling</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -640,7 +641,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                   <div className="flex items-center space-x-2">
                     {getUserTypeIcon(formData.userType)}
                     <span>
-                      {activeTab === 'login' ? 'Welcome Me Back' : 'Join zen'}
+                      {activeTab === 'login' ? 'Welcome Me Back' : 'Join ZEN'}
                     </span>
                   </div>
                 )}
@@ -650,7 +651,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
             {/* Footer */}
             <div className="mt-6 text-center text-sm text-muted-foreground">
               <p>
-                {activeTab === 'login' ? "New to zen? " : "Already part of our community? "}
+                {activeTab === 'login' ? "New to ZEN? " : "Already part of our community? "}
                 <Button
                   variant="link"
                   className="p-0 h-auto text-primary"

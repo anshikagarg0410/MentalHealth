@@ -173,8 +173,8 @@ export function PeerSupport() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl mb-2">Peer Support Community</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl mb-2 text-primary">Peer Support Community</h1>
+        <p className="text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
           Connect with fellow students in a safe, moderated space. Share experiences, find support, and help others.
         </p>
       </div>
@@ -185,8 +185,8 @@ export function PeerSupport() {
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Community Guidelines</h3>
-              <p className="text-sm text-blue-700 dark:text-blue-400">
+              <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-1"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 700}}>Community Guidelines</h3>
+              <p className="text-sm text-blue-700 dark:text-blue-400"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                 Be respectful, supportive, and kind. All posts are moderated by trained peer volunteers. 
                 Report any concerning content. Remember, this is not a substitute for professional help.
               </p>
@@ -195,7 +195,7 @@ export function PeerSupport() {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="posts" className="space-y-6">
+      <Tabs defaultValue="posts" className="space-y-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="posts">Discussion Posts</TabsTrigger>
           <TabsTrigger value="create">Create Post</TabsTrigger>

@@ -200,8 +200,8 @@ export function AdminInterface({ currentView, onViewChange }: AdminInterfaceProp
     
     return (
         <div className="space-y-6">
-            <Button variant="outline" onClick={handleBackToUserList} className="flex items-center gap-2"><ArrowLeft className="h-4 w-4" />Back to User List</Button>
-            <Card>
+            <Button variant="outline" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} onClick={handleBackToUserList} className="flex items-center gap-2"><ArrowLeft className="h-4 w-4" />Back to User List</Button>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                 <CardHeader>
                     <div className="flex items-center gap-4">
                         <Avatar className="h-16 w-16"><AvatarFallback className="text-2xl bg-primary/10 text-primary">{selectedUserForView.name.split(' ').map(n => n[0]).join('')}</AvatarFallback></Avatar>
@@ -247,9 +247,9 @@ export function AdminInterface({ currentView, onViewChange }: AdminInterfaceProp
   const renderUsers = () => (
     selectedUserForView ? renderUserProfile() : (
       <div className="space-y-6">
-          <div className="flex justify-end items-center"><Button className="bg-primary hover:bg-primary/90" onClick={handleAddUser} disabled={isAddingUser}><Plus className="mr-2 h-4 w-4" />{isAddingUser ? 'Adding...' : 'Add User'}</Button></div>
-          <div className="flex gap-4"><div className="relative flex-1"><Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" /><Input placeholder="Search users..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" /></div><Select value={filterBy} onValueChange={handleFilterChange}><SelectTrigger className="w-32"><Filter className="mr-2 h-4 w-4" /><SelectValue placeholder="Filter" /></SelectTrigger><SelectContent><SelectItem value="all">All Users</SelectItem><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent></Select></div>
-          <Card><CardContent className="p-0"><div className="overflow-x-auto"><table className="w-full">
+          <div className="flex justify-end items-center"><Button style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} className="bg-primary hover:bg-primary/90" onClick={handleAddUser} disabled={isAddingUser}><Plus className="mr-2 h-4 w-4" />{isAddingUser ? 'Adding...' : 'Add User'}</Button></div>
+          <div className="flex gap-4"><div className="relative flex-1"><Search  style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" /><Input placeholder="Search users..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" /></div><Select value={filterBy} onValueChange={handleFilterChange}><SelectTrigger className="w-32"><Filter className="mr-2 h-4 w-4" /><SelectValue placeholder="Filter" /></SelectTrigger><SelectContent><SelectItem value="all">All Users</SelectItem><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent></Select></div>
+          <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}><CardContent className="p-0"><div className="overflow-x-auto"><table className="w-full">
             <thead className="border-b bg-muted/50"><tr><th className="text-left p-4 font-medium">User</th><th className="text-left p-4 font-medium">Role</th><th className="text-left p-4 font-medium">Status</th><th className="text-left p-4 font-medium">Last Active</th><th className="text-left p-4 font-medium">Actions</th></tr></thead>
             <tbody>{filteredUsers.map(user => (
               <tr key={user.id} className="border-b hover:bg-muted/30">

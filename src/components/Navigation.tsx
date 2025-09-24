@@ -33,7 +33,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
         return [
           { id: 'dashboard', label: 'Home', icon: Home },
           { id: 'chat', label: 'AI Friend', icon: MessageCircle },
-          { id: 'booking', label: 'Counseling', icon: Calendar },
+          { id: 'booking', label: 'Counselling', icon: Calendar },
           { id: 'resources', label: 'Resources', icon: BookOpen },
           { id: 'forum', label: 'Peer Support', icon: Users },
           { id: 'wellness-tools', label: 'Wellness Tools', icon: Brain },
@@ -100,7 +100,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
               <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">zen</h2>
+              <h2 className="text-lg font-semibold text-foreground">ZEN</h2>
               <p className="text-sm text-muted-foreground">Campus Wellness</p>
             </div>
           </div>
@@ -108,7 +108,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
           {/* User Info */}
           {userData && (
             <div
-              className="bg-muted/50 p-4 rounded-lg mb-6 cursor-pointer hover:bg-muted transition-colors"
+              className="bg-muted/50 p-4 rounded-lg mb-6 cursor-pointer hover:bg-secondary transition-colors"
               onClick={handleProfileClick}
             >
               <div className="flex items-center gap-3">
@@ -138,6 +138,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
                     onViewChange(item.id);
                     setIsOpen(false);
                   }}
+                  style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}
                 >
                   <Icon className="mr-3 h-4 w-4" />
                   {item.label}

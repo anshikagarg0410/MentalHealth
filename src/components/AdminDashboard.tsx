@@ -77,7 +77,7 @@ export function AdminDashboard() {
       color: 'text-blue-600'
     },
     { 
-      title: 'Counseling Bookings', 
+      title: 'Counselling Bookings', 
       value: '156', 
       change: '+8%', 
       icon: Calendar,
@@ -110,7 +110,7 @@ export function AdminDashboard() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
       <div className="mb-8">
         <h1 className="text-3xl mb-2">Mental Health Analytics Dashboard</h1>
         <p className="text-muted-foreground">
@@ -126,11 +126,11 @@ export function AdminDashboard() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         {engagementStats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index}>
+            <Card key={index} style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -148,7 +148,7 @@ export function AdminDashboard() {
         })}
       </div>
 
-      <Tabs defaultValue="overview" className="space-y-6">
+      <Tabs defaultValue="overview" className="space-y-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         <div className="flex justify-between items-center">
           <TabsList className="grid w-full max-w-md grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -169,10 +169,10 @@ export function AdminDashboard() {
           </div>
         </div>
 
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value="overview" className="space-y-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Weekly Usage */}
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle>Weekly Platform Usage</CardTitle>
                 <CardDescription>User engagement across different features</CardDescription>
@@ -196,12 +196,12 @@ export function AdminDashboard() {
             </Card>
 
             {/* Issue Categories */}
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle>Common Mental Health Concerns</CardTitle>
                 <CardDescription>Distribution of issues addressed</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -228,7 +228,7 @@ export function AdminDashboard() {
           </div>
 
           {/* Peak Usage Hours */}
-          <Card>
+          <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             <CardHeader>
               <CardTitle>Peak Usage Hours</CardTitle>
               <CardDescription>When students most commonly seek support</CardDescription>
@@ -250,7 +250,7 @@ export function AdminDashboard() {
         </TabsContent>
 
         <TabsContent value="trends" className="space-y-6">
-          <Card>
+          <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             <CardHeader>
               <CardTitle>6-Month Mental Health Trends</CardTitle>
               <CardDescription>Tracking changes in different mental health categories</CardDescription>
@@ -274,7 +274,7 @@ export function AdminDashboard() {
           </Card>
 
           <div className="grid md:grid-cols-3 gap-6">
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-green-600" />
@@ -297,7 +297,7 @@ export function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-orange-600" />
@@ -320,7 +320,7 @@ export function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Heart className="h-5 w-5 text-blue-600" />
@@ -333,7 +333,7 @@ export function AdminDashboard() {
                   <Badge variant="secondary" className="text-blue-600">92%</Badge>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm">Counseling follow-up</span>
+                  <span className="text-sm">Counselling follow-up</span>
                   <Badge variant="secondary" className="text-blue-600">85%</Badge>
                 </div>
                 <div className="flex justify-between">
@@ -347,7 +347,7 @@ export function AdminDashboard() {
 
         <TabsContent value="risk" className="space-y-6">
           <div className="grid lg:grid-cols-2 gap-6">
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle>Risk Level Distribution</CardTitle>
                 <CardDescription>Current risk assessment breakdown</CardDescription>
@@ -374,7 +374,7 @@ export function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-red-600" />
@@ -406,7 +406,7 @@ export function AdminDashboard() {
                       <Badge variant="secondary">Follow-up</Badge>
                       <span className="text-xs text-muted-foreground">1 day ago</span>
                     </div>
-                    <p className="text-sm">Student missed scheduled counseling appointment</p>
+                    <p className="text-sm">Student missed scheduled Counselling appointment</p>
                     <Button size="sm" variant="outline" className="mt-2">Contact</Button>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export function AdminDashboard() {
             </Card>
           </div>
 
-          <Card>
+          <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             <CardHeader>
               <CardTitle>Recommended Actions</CardTitle>
               <CardDescription>Suggested interventions based on current data</CardDescription>
@@ -448,7 +448,7 @@ export function AdminDashboard() {
                 <div className="p-4 bg-orange-50 dark:bg-orange-950 rounded-lg">
                   <h4 className="font-semibold mb-2">⏰ Extended Hours</h4>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Peak usage in evening hours. Consider extended counseling availability.
+                    Peak usage in evening hours. Consider extended Counselling availability.
                   </p>
                   <Button size="sm">Review Schedule</Button>
                 </div>
@@ -459,7 +459,7 @@ export function AdminDashboard() {
 
         <TabsContent value="reports" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle>Generate Reports</CardTitle>
                 <CardDescription>Create custom reports for stakeholders</CardDescription>
@@ -484,7 +484,7 @@ export function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
                 <CardTitle>Data Privacy Compliance</CardTitle>
                 <CardDescription>Ensuring student privacy and data protection</CardDescription>

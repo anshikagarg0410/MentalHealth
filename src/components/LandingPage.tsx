@@ -1,6 +1,6 @@
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import heroImage from '../assets/mentalheath.png';
+import heroImage from '../assets/vecteezy_mental-health-medical-treatment-doctor-female-with-brain_17450621-removebg-preview.png';
 import {
   Heart,
   Shield,
@@ -9,16 +9,18 @@ import {
   MessageCircle,
   Calendar,
   Star,
-  CheckCircle,
   ArrowRight,
-  Quote,
-  Play,
   Menu,
   X
 } from 'lucide-react';
 import { useState } from 'react';
 import image from '../assets/image.png';
-
+import chatImg from '../assets/vecteezy_talking-to-chat-widget-illustration-man-chatting-with-chat_-removebg-preview.png';
+import counselorImg from '../assets/vecteezy_two-women-are-sitting-in-chairs-and-talking-during-a-work_47783616-removebg-preview.png';
+import toolsImg from '../assets/Gemini_Generated_Image_6atvug6atvug6atv-removebg-preview.png';
+import commuintyImg from '../assets/vecteezy_multicultural-communities_266247-removebg-preview.png';
+import privacyImg from '../assets/Project_172-10_generated-removebg-preview.png';
+import supportImg from '../assets/vecteezy_customer-service-modern-flat-concept-for-web-banner-design_5877694-removebg-preview.png';
 interface LandingPageProps {
   onGetStarted: () => void;
   onLogin: () => void;
@@ -40,36 +42,42 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
       title: 'Always Here for You',
       description: 'Chat with our friendly AI companion anytime - day or night. No judgment, just understanding and support when you need it most.',
       color: "#FEE7D7",
+      img: chatImg,
     },
     {
       icon: Calendar,
       title: 'Connect with Care',
       description: 'Meet with counselors who truly get student life. Book sessions that fit your schedule, with professionals who care about your wellbeing.',
-      color: "#FADFD8"
+      color: "#FADFD8",
+      img: counselorImg
     },
     {
       icon: BookOpen,
       title: 'Tools That Help',
       description: 'Discover practical strategies, calming exercises, and wellness resources crafted specifically for Indian students like you.',
-      color: "#FEE7D7"
+      color: "#FEE7D7",
+      img: toolsImg
     },
     {
       icon: Users,
       title: 'You\'re Not Alone',
       description: 'Join a supportive community of students who understand what you\'re going through. Share, listen, and grow together.',
-      color: "#FADFD8"
+      color: "#FADFD8",
+      img: commuintyImg
     },
     {
       icon: Shield,
       title: 'Your Safe Space',
       description: 'Everything you share stays between us. This is your judgment-free zone where your privacy and trust are our top priority.',
-      color: "#FEE7D7"
+      color: "#FEE7D7",
+      img: privacyImg
     },
     {
       icon: Heart,
       title: 'We\'ve Got Your Back',
       description: 'In moments of crisis, we\'re here with immediate support and caring guidance to help you through tough times.',
-      color: "#FADFD8"
+      color: "#FADFD8",
+      img: supportImg
     }
   ];
 
@@ -94,12 +102,12 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
     }
   ];
 
-  const stats = [
-    { number: '10,000+', label: 'Students Helped' },
-    { number: '95%', label: 'Success Rate' },
-    { number: '24/7', label: 'Support Available' },
-    { number: '100%', label: 'Confidential' }
-  ];
+  // const stats = [
+  //   { number: '10,000+', label: 'Students Helped' },
+  //   { number: '95%', label: 'Success Rate' },
+  //   { number: '24/7', label: 'Support Available' },
+  //   { number: '100%', label: 'Confidential' }
+  // ];
 
 //   :root {
 //   --font-size: 16px;
@@ -384,12 +392,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
       </div> */}
 
       {/* Features Section */}
-      <div id="features" className="py-20 bg-secondary/20" style={{
-        // backgroundImage: `url(${image})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-      }}>
+      <div id="features" className="py-20 bg-secondary/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4" style={{ fontFamily: "'Yeseva One', 'cursive'", color:"#e57474" }}>
@@ -402,35 +405,46 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <Card
-                  key={index}
-                  className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  style={{ backgroundColor: feature.color }} // <-- Apply the dynamic color here
-                >
-                  <CardHeader>
-                    <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-4">
-                      <Icon className="w-6 h-6 text-primary-foreground" />
-                    </div>
-                    <CardTitle
-                      className="text-xl text-primary font-bold"
-                      style={{ fontFamily: "'Yeseva One', 'cursive'" }}
-                    >
-                      {feature.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p
-                      className="text-muted-foreground"
-                      style={{ fontFamily: "'Raleway', 'sans-serif'" }}
-                    >
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+  const Icon = feature.icon; // Keep this for fallback or if you decide to use icons again
+  return (
+    <Card
+      key={index}
+      className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
+      style={{ backgroundColor: feature.color }}
+    >
+      <CardHeader>
+        {/* Parent div with a FIXED height (h-48) */}
+<div className="w-full flex items-center justify-center mb-4">
+  {feature.img ? (
+    <img
+      src={feature.img}
+      alt={feature.title}
+      // Image itself uses h-full and object-contain to fit neatly
+      className="w-full h-full object-contain"
+      style={{ maxHeight: '230px' }} // Optional: limit max height
+    />
+  ) : (
+    <Icon className="w-6 h-6 text-primary" />
+  )}
+</div>
+        <CardTitle
+          className="text-xl text-primary font-bold"
+          style={{ fontFamily: "'Yeseva One', 'cursive'" }}
+        >
+          {feature.title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p
+          className="text-muted-foreground"
+          style={{ fontFamily: "'Raleway', 'sans-serif'" }}
+        >
+          {feature.description}
+        </p>
+      </CardContent>
+    </Card>
+  );
+})}
           </div>
         </div>
       </div>
@@ -477,12 +491,12 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
       </div>
 
       {/* CTA Section */}
-      <div className="py-20" style={{ background: "#ee949d" }}>
+      <div className="py-20" style={{ background: "rgba(190,231,251,0.5)" }}>
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-6">
+          <h2 className="text-4xl lg:text-4xl font-bold text-foreground mb-6" style={{ fontFamily: "'Yeseva One', 'cursive'" , color: "#2E90C1"}}>
             Ready to Feel Like Yourself Again?
           </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8">
+          <p className="text-xl text-foreground/90 mb-8" style={{ fontFamily: "'Raleway', 'sans-serif'" }}>
             Thousands of students have already found their peace and confidence with ZEN. We're here, ready to walk this journey with you too.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -490,6 +504,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               size="lg"
               className="bg-primary hover:bg-card/90 px-8 py-4"
               onClick={onGetStarted}
+              style={{ fontFamily: "'Raleway', 'sans-serif'", background:"#2E90C1" }}
             >
               I'm Ready to Start
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -515,7 +530,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-6" style={{ fontFamily: "'Yeseva One', 'cursive'" }}>
                 Built for Indian Students, By People Who Care
               </h2>
-              <div className="space-y-4 text-muted-foreground">
+              <div className="space-y-4 text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" }}>
                 <p>
                   ZEN was created specifically to address the unique mental health challenges faced by college students in India. We understand the academic pressure, family expectations, career anxiety, and social challenges that you navigate every day.
                 </p>
@@ -527,24 +542,24 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-primary/5 p-6 rounded-lg">
-                <MessageCircle className="w-8 h-8 text-primary mb-3" />
+            <div className="grid grid-cols-2 gap-6" style={{ fontFamily: "'Raleway', 'sans-serif'" }}>
+              <div className="bg-primary/5 p-6 rounded-lg" style={{ background: "#E7FFE4" }}>
+                <MessageCircle className="w-8 h-8 text-primary mb-3"  style={{ color: "#8DD184" }}/>
                 <h3 className="font-semibold mb-2">Cultural Sensitivity</h3>
                 <p className="text-sm text-muted-foreground">Understanding Indian family dynamics and cultural values</p>
               </div>
-              <div className="bg-accent/5 p-6 rounded-lg">
+              <div className="bg-accent/5 p-6 rounded-lg" style={{ background: "#FBD9D9" }}>
                 <Shield className="w-8 h-8 text-accent mb-3" />
                 <h3 className="font-semibold mb-2">Complete Privacy</h3>
                 <p className="text-sm text-muted-foreground">Anonymous usage with no stigma or judgment</p>
               </div>
               <div className="bg-secondary/50 p-6 rounded-lg">
-                <Users className="w-8 h-8 text-secondary-foreground mb-3" />
+                <Users className="w-8 h-8 text-secondary-foreground mb-3"  style={{ color: "#D5A08D" }}/>
                 <h3 className="font-semibold mb-2">Regional Languages</h3>
                 <p className="text-sm text-muted-foreground">Support and resources in your preferred language</p>
               </div>
-              <div className="bg-muted/50 p-6 rounded-lg">
-                <Heart className="w-8 h-8 text-muted-foreground mb-3" />
+              <div className="bg-muted/50 p-6 rounded-lg" style={{ background: "#DBFBFB" }}>
+                <Heart className="w-8 h-8 text-muted-foreground mb-3"  style={{ color: "#89CBCB" }}/>
                 <h3 className="font-semibold mb-2">Crisis Support</h3>
                 <p className="text-sm text-muted-foreground">Immediate help when you need it most</p>
               </div>
@@ -588,7 +603,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
             </div>
           </div>
           <div className="border-t border-background/20 mt-8 pt-8 text-center text-background/70">
-            <p>&copy; 2024 ZEN. All rights reserved. Built with love and care for every Indian student.</p>
+            <p>&copy; 2024 ZEN. All rights reserved. Built with love and care for every student.</p>
           </div>
         </div>
       </footer>

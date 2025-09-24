@@ -67,7 +67,7 @@ export function BookingSystem() {
     {
       id: '3',
       name: 'Dr. Anita Desai',
-      specialties: ['Trauma', 'PTSD', 'Grief Counseling'],
+      specialties: ['Trauma', 'PTSD', 'Grief Counselling'],
       rating: 4.9,
       experience: '15 years',
       languages: ['English', 'Gujarati', 'Hindi'],
@@ -92,18 +92,18 @@ export function BookingSystem() {
         <Card className="text-center">
           <CardContent className="pt-8 pb-8">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Appointment Booked Successfully!</h2>
-            <p className="text-muted-foreground mb-6">
-              Your confidential counseling session has been scheduled. You'll receive a confirmation with session details.
+            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Appointment Booked Successfully!</h2>
+            <p className="text-muted-foreground mb-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
+              Your confidential Counselling session has been scheduled. You'll receive a confirmation with session details.
             </p>
             <div className="bg-muted p-4 rounded-lg text-left mb-6">
-              <h3 className="font-semibold mb-2">Appointment Details:</h3>
-              <p><CalendarIcon className="inline h-4 w-4 mr-2" />Date: {selectedDate?.toDateString()}</p>
-              <p><Clock className="inline h-4 w-4 mr-2" />Time: {selectedTime}</p>
-              <p><User className="inline h-4 w-4 mr-2" />Counselor: {counselors.find(c => c.id === selectedCounselor)?.name}</p>
-              <p><MapPin className="inline h-4 w-4 mr-2" />Location: Campus Counseling Center, Room 205</p>
+              <h3 className="font-semibold mb-2"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 700}}>Appointment Details:</h3>
+              <p><CalendarIcon className="inline h-4 w-4 mr-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} />Date: {selectedDate?.toDateString()}</p>
+              <p><Clock className="inline h-4 w-4 mr-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}/>Time: {selectedTime}</p>
+              <p><User className="inline h-4 w-4 mr-2"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} />Counselor: {counselors.find(c => c.id === selectedCounselor)?.name}</p>
+              <p><MapPin className="inline h-4 w-4 mr-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} />Location: Campus Counselling Center, Room 205</p>
             </div>
-            <Button onClick={() => setIsSubmitted(false)}>
+            <Button onClick={() => setIsSubmitted(false)} style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               Book Another Appointment
             </Button>
           </CardContent>
@@ -115,8 +115,8 @@ export function BookingSystem() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl mb-2">Book Counseling Appointment</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl mb-2 text-primary">Book Counselling Appointment</h1>
+        <p className="text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
           Find a time that works for you with one of our friendly counselors. It's a safe, private space just for you.
         </p>
       </div>
@@ -126,7 +126,7 @@ export function BookingSystem() {
         <div className="lg:col-span-2">
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Choose Your Counselor</CardTitle>
+              <CardTitle style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 600}}>Choose Your Counselor</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
@@ -150,20 +150,20 @@ export function BookingSystem() {
                         <h3 className="font-semibold">{counselor.name}</h3>
                         <div className="flex items-center gap-1 mb-1">
                           <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                          <span className="text-sm">{counselor.rating}</span>
-                          <span className="text-sm text-muted-foreground">({counselor.experience})</span>
+                          <span className="text-sm" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>{counselor.rating}</span>
+                          <span className="text-sm text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>({counselor.experience})</span>
                         </div>
-                        <div className="flex flex-wrap gap-1 mb-2">
+                        <div className="flex flex-wrap gap-1 mb-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                           {counselor.specialties.slice(0, 3).map((specialty) => (
                             <Badge key={specialty} variant="secondary" className="text-xs">
                               {specialty}
                             </Badge>
                           ))}
                         </div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                           Languages: {counselor.languages.join(', ')}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-xs text-muted-foreground mt-1" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
                           Availability: {counselor.availability.join(', ')}
                         </p>
                       </div>
@@ -177,44 +177,44 @@ export function BookingSystem() {
           {/* Booking Form */}
           <Card>
             <CardHeader>
-              <CardTitle>Appointment Details</CardTitle>
+              <CardTitle style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 600}}>Appointment Details</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="bookingType">Session Type</Label>
+                    <Label htmlFor="bookingType" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Session Type</Label>
                     <Select value={bookingType} onValueChange={setBookingType}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select session type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="individual">Individual Counseling</SelectItem>
-                        <SelectItem value="group">Group Therapy</SelectItem>
-                        <SelectItem value="crisis">Crisis Intervention</SelectItem>
-                        <SelectItem value="academic">Academic Stress Support</SelectItem>
+                        <SelectItem value="individual" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Individual Counselling</SelectItem>
+                        <SelectItem value="group" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Group Therapy</SelectItem>
+                        <SelectItem value="crisis"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Crisis Intervention</SelectItem>
+                        <SelectItem value="academic"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Academic Stress Support</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
-                    <Label htmlFor="urgency">Urgency Level</Label>
+                    <Label htmlFor="urgency" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Urgency Level</Label>
                     <Select value={formData.urgency} onValueChange={(value) => setFormData(prev => ({ ...prev, urgency: value }))}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select urgency" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="low">Low - Within 2 weeks</SelectItem>
-                        <SelectItem value="medium">Medium - Within 1 week</SelectItem>
-                        <SelectItem value="high">High - Within 2-3 days</SelectItem>
-                        <SelectItem value="urgent">Urgent - Same day</SelectItem>
+                        <SelectItem value="low"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Low - Within 2 weeks</SelectItem>
+                        <SelectItem value="medium"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Medium - Within 1 week</SelectItem>
+                        <SelectItem value="high"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>High - Within 2-3 days</SelectItem>
+                        <SelectItem value="urgent"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Urgent - Same day</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="preferredName">Preferred Name (Optional)</Label>
+                  <Label htmlFor="preferredName" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Preferred Name (Optional)</Label>
                   <Input
                     id="preferredName"
                     value={formData.preferredName}
@@ -224,21 +224,21 @@ export function BookingSystem() {
                 </div>
 
                 <div>
-                  <Label htmlFor="contactMethod">Preferred Contact Method</Label>
+                  <Label htmlFor="contactMethod"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Preferred Contact Method</Label>
                   <Select value={formData.contactMethod} onValueChange={(value) => setFormData(prev => ({ ...prev, contactMethod: value }))}>
                     <SelectTrigger>
                       <SelectValue placeholder="How should we contact you?" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="email">Campus Email</SelectItem>
-                      <SelectItem value="phone">Phone Call</SelectItem>
-                      <SelectItem value="portal">Student Portal Message</SelectItem>
+                      <SelectItem value="email"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Campus Email</SelectItem>
+                      <SelectItem value="phone" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Phone Call</SelectItem>
+                      <SelectItem value="portal" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Student Portal Message</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <Label htmlFor="concerns">Brief Description of Concerns (Optional)</Label>
+                  <Label htmlFor="concerns"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Brief Description of Concerns (Optional)</Label>
                   <Textarea
                     id="concerns"
                     value={formData.concerns}
@@ -254,6 +254,7 @@ export function BookingSystem() {
             onClick={handleSubmit}
             className="w-full mt-4" 
             size="lg"
+            style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}
             disabled={!selectedDate || !selectedTime || !selectedCounselor || !bookingType}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -265,12 +266,13 @@ export function BookingSystem() {
         <div>
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Select Date</CardTitle>
+              <CardTitle style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 600}}>Select Date</CardTitle>
             </CardHeader>
             <CardContent>
               <Calendar
                 mode="single"
                 selected={selectedDate}
+                style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}
                 onSelect={setSelectedDate}
                 disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6}
                 className="rounded-md border"
@@ -280,7 +282,7 @@ export function BookingSystem() {
 
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Available Times</CardTitle>
+              <CardTitle style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 600}}>Available Times</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-2">
@@ -291,6 +293,7 @@ export function BookingSystem() {
                     size="sm"
                     onClick={() => setSelectedTime(time)}
                     className="justify-center"
+                    style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}
                   >
                     {time}
                   </Button>
@@ -299,14 +302,14 @@ export function BookingSystem() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className='bg-muted' style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
+                <Shield className="h-5 w-5" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}/>
                 Confidentiality Notice
               </CardTitle>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground space-y-2">
+            <CardContent className="text-sm text-muted-foreground space-y-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <p>✓ All sessions are strictly confidential</p>
               <p>✓ Your information is protected by privacy laws</p>
               <p>✓ You can request anonymous sessions</p>

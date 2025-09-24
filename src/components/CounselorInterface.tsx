@@ -202,7 +202,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
 
   // Render functions for each view
   const renderDashboard = () => (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
       {/* Crisis Alerts */}
       {isAlertVisible && crisisAlerts.length > 0 && (
         <Card className="border-red-200 bg-red-50 dark:bg-red-950 dark:border-red-800">
@@ -320,7 +320,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
   );
 
   const renderClients = () => (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
       <div className="flex justify-between items-center">
         <div></div> {/* Placeholder for alignment */}
         <Button className="bg-primary hover:bg-primary/90" onClick={() => alert('Adding new client...')}><Plus className="mr-2 h-4 w-4" />Add Client</Button>
@@ -357,7 +357,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
   );
 
   const renderSessions = () => (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-1">
           <CardHeader>
@@ -425,9 +425,9 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
       <div className="space-y-6">
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1">
-            <Card>
+            <Card style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
               <CardHeader>
-                <CardTitle>Browse Students</CardTitle>
+                <CardTitle style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Browse Students</CardTitle>
                 <CardDescription>Select a student to view their report.</CardDescription>
               </CardHeader>
               <CardContent>
@@ -446,7 +446,7 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
               </CardContent>
             </Card>
           </div>
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             {selectedStudentForReport ? (
               <Card>
                 <CardHeader>
@@ -541,13 +541,14 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl mb-2 text-primary">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
+          <p className="text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>{description}</p>
         </div>
         <div className="flex items-center gap-3">
           <Button 
             size="sm" 
             variant="outline"
             className="relative"
+            style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}
             onClick={() => {
               setIsAlertVisible(!isAlertVisible);
               if (hasNewAlerts) setHasNewAlerts(false);
@@ -562,11 +563,11 @@ export function CounselorInterface({ currentView, onViewChange }: CounselorInter
               </span>
             )}
           </Button>
-            <Button variant="outline" size="sm" onClick={handleUploadResource}>
+            <Button variant="outline" size="sm" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} onClick={handleUploadResource}>
                 <BookOpen className="mr-2 h-4 w-4" />
                 Add Resource
             </Button>
-            <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleScheduleSession} disabled={isSchedulingSession}><Plus className="mr-2 h-4 w-4" />{isSchedulingSession ? 'Scheduling...' : 'New Session'}</Button>
+            <Button  style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}size="sm" className="bg-primary hover:bg-primary/90" onClick={handleScheduleSession} disabled={isSchedulingSession}><Plus className="mr-2 h-4 w-4" />{isSchedulingSession ? 'Scheduling...' : 'New Session'}</Button>
         </div>
       </div>
       

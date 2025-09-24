@@ -130,14 +130,14 @@ export function AIChat() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
-        <h1 className="text-3xl mb-2">Your AI Wellness Friend</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl mb-2 text-primary">Your AI Wellness Friend</h1>
+        <p className="text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'"}}>
           A friendly, safe space to talk through what's on your mind. I'm here to listen, offer support, and help you find your strength.
         </p>
 
         <div className="flex items-center gap-2 mt-4 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
           <Shield className="h-4 w-4 text-blue-600" />
-          <p className="text-sm text-blue-800 dark:text-blue-300">
+          <p className="text-sm text-blue-800 dark:text-blue-300" style={{ fontFamily: "'Raleway', 'sans-serif'"}}>
             Your privacy is our top priority. This is a safe and confidential space just for you. For emergencies, please know that immediate help is available by calling 911 or your campus crisis line.
           </p>
         </div>
@@ -146,7 +146,7 @@ export function AIChat() {
       <Card className="h-[600px] flex flex-col">
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2">
-            <Bot className="h-5 w-5 text-primary" />
+            <Bot className="h-5 w-5 text-primary" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}} />
             AI Wellness Assistant
           </CardTitle>
         </CardHeader>
@@ -221,7 +221,7 @@ export function AIChat() {
 
           {/* Quick Responses & Input */}
           <div className="px-6 py-4 border-t">
-            <p className="text-sm text-muted-foreground mb-2">Not sure where to start? Try one of these:</p>
+            <p className="text-sm text-muted-foreground mb-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Not sure where to start? Try one of these:</p>
             <div className="flex flex-wrap gap-2 mb-4">
               {quickResponses.map((response, index) => (
                 <Button
@@ -230,6 +230,7 @@ export function AIChat() {
                   size="sm"
                   onClick={() => sendMessage(response)}
                   className="text-xs"
+                  style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}
                 >
                   {response}
                 </Button>

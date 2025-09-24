@@ -21,13 +21,13 @@ export function UserTypeSelector({ onSelectUserType }: UserTypeSelectorProps) {
     {
       type: 'student' as const,
       title: 'Student Portal',
-      description: 'Access AI support, book counseling, connect with peers, and explore mental health resources',
+      description: 'Access AI support, book Counselling, connect with peers, and explore mental health resources',
       icon: Users,
       color: 'bg-blue-50 hover:bg-blue-100 border-blue-200',
       iconColor: 'text-blue-600',
       features: [
         { icon: Brain, label: 'AI Mental Health Assistant' },
-        { icon: Calendar, label: 'Book Counseling Sessions' },
+        { icon: Calendar, label: 'Book Counselling Sessions' },
         { icon: BookOpen, label: 'Resource Library' },
         { icon: MessageCircle, label: 'Peer Support Forum' }
       ]
@@ -72,10 +72,10 @@ export function UserTypeSelector({ onSelectUserType }: UserTypeSelectorProps) {
             </div>
           </div>
           <h1 className="text-4xl font-bold text-primary mb-4">ZEN</h1>
-          <p className="text-xl text-muted-foreground mb-2">
+          <p className="text-xl text-muted-foreground mb-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             Digital Mental Health Support Platform
           </p>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             Choose your access level to enter the comprehensive mental health support ecosystem 
             designed for college students, counselors, and administrators.
           </p>

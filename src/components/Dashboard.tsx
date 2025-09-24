@@ -11,7 +11,7 @@ import {
   Edit2,
   Save,
 } from 'lucide-react';
-
+import dashboardImg from '../assets/bgdashboard.png';
 interface DashboardProps {
   onViewChange: (view: string) => void;
 }
@@ -49,7 +49,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
 
 
   const handleCampusCall = () => {
-    alert('Campus Counseling Center\nPhone: (555) 123-HELP\n\nWould you like to be connected?');
+    alert('Campus Counselling Center\nPhone: (555) 123-HELP\n\nWould you like to be connected?');
   };
 
   const handleCrisisCall = () => {
@@ -139,21 +139,26 @@ export function Dashboard({ onViewChange }: DashboardProps) {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Welcome Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-        <div className="absolute inset-0 bg-black/20" />
+      <div className="relative overflow-hidden rounded-2xl text-white" style={{
+            backgroundImage: `url(${dashboardImg})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+          }}>
         <div className="relative p-8 md:p-12">
           <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              Student Life is Tough. Your Support Shouldn't Be
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-primary" style={{ fontFamily: "'Yeseva One', 'cursive'" }}>
+              Student Life is Tough, <br/>Your Support Shouldn't Be
             </h1>
-            <p className="text-lg md:text-xl mb-6 opacity-90">
-              You've found a confidential space to pause, breathe, and find the support you need. We're here to help you navigate it all
+            <p className="text-lg md:text-xl mb-6 opacity-90 text-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
+              You've found a confidential space to pause, breathe, <br/>and find the support you need. We're here to help you <br/>navigate it all
             </p>
             <Button
               onClick={() => onViewChange('chat')}
               size="lg"
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100"
+              style={{ fontFamily: "'Raleway', 'sans-serif'" }}
             >
               Chat with a Friendly Listener<MessageCircle className="ml-2 h-4 w-4" />
             </Button>
@@ -163,7 +168,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       
       {/* Quick Actions */}
       <div>
-        <h2 className="text-2xl mb-6">What's on your mind?</h2>
+        <h2 className="text-3xl mb-2 text-primary">What's on your mind?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {quickActions.map((action) => {
             const Icon = action.icon;
@@ -182,7 +187,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground text-sm">{action.description}</p>
+                  <p className="text-muted-foreground text-sm" style={{ fontFamily: "'Raleway', 'sans-serif'"}}>{action.description}</p>
                 </CardContent>
               </Card>
             );
@@ -198,7 +203,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
                 <Card className="h-full">
                 <CardHeader>
                     <CardTitle>Daily Check-in</CardTitle>
-                    <CardDescription>
+                    <CardDescription style={{ fontFamily: "'Raleway', 'sans-serif'"}}>
                     How are you feeling today?
                     </CardDescription>
                 </CardHeader>
@@ -226,7 +231,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
                     <CardHeader className="flex flex-row items-start justify-between">
                         <div>
                         <CardTitle>Daily Check-in</CardTitle>
-                        <CardDescription>
+                        <CardDescription style={{ fontFamily: "'Raleway', 'sans-serif'"}}>
                             Thanks for sharing. Here's a little note for you:
                         </CardDescription>
                         </div>
@@ -252,7 +257,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
         <Card className={`bg-white dark:bg-purple-950/30 border-pink-200 dark:border-pink-800 h-full ${!shouldShowMoodComponent ? 'md:col-span-2' : ''}`}>
           <CardHeader>
             <CardTitle>Your Daily Intention</CardTitle>
-            <CardDescription>A personal motivational message to guide your day.</CardDescription>
+            <CardDescription style={{ fontFamily: "'Raleway', 'sans-serif'"}}>A personal motivational message to guide your day.</CardDescription>
           </CardHeader>
           <CardContent>
             {isEditingIntention ? (
@@ -281,7 +286,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
               </div>
             ) : (
                  <div className="text-center text-purple-700">
-                    <p>You haven't set an intention for today.</p>
+                    <p style={{ fontFamily: "'Raleway', 'sans-serif'"}}>You haven't set an intention for today.</p>
                     <Button variant="link" className="text-purple-700" onClick={() => setIsEditingIntention(true)}>Set one now</Button>
                  </div>
             )}
@@ -293,21 +298,21 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       <Card>
           <CardHeader>
             <CardTitle>Need to Talk to Someone?</CardTitle>
-            <CardDescription>Help is always available.</CardDescription>
+            <CardDescription style={{ fontFamily: "'Raleway', 'sans-serif'"}}>Help is always available.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-3">
-              <div className="flex justify-between items-center p-3 bg-muted rounded-lg">
+              <div className="flex justify-between items-center p-3 bg-secondary rounded-lg">
                 <div>
-                  <p className="font-medium">Campus Counseling Center</p>
-                  <p className="text-sm text-muted-foreground">Mon-Fri, 9 AM - 5 PM</p>
+                  <p className="font-medium" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Campus Counselling Center</p>
+                  <p className="text-sm text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'"}}>Mon-Fri, 9 AM - 5 PM</p>
                 </div>
                 <Button size="sm" variant="outline" onClick={handleCampusCall}>Call</Button>
               </div>
-              <div className="flex justify-between items-center p-3 bg-muted rounded-lg">
+              <div className="flex justify-between items-center p-3 bg-secondary rounded-lg">
                 <div>
-                  <p className="font-medium">24/7 Crisis Helpline</p>
-                  <p className="text-sm text-muted-foreground">Available anytime</p>
+                  <p className="font-medium" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>24/7 Crisis Helpline</p>
+                  <p className="text-sm text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'"}}>Available anytime</p>
                 </div>
                 <Button size="sm" variant="outline" onClick={handleCrisisCall}>Call</Button>
               </div>

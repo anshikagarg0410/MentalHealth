@@ -177,14 +177,14 @@ export function ResourceHub() {
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl mb-2">Mental Wellness Resources</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl mb-2 text-primary">Mental Wellness Resources</h1>
+        <p className="text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
           Your safe space for wellness. Explore curated videos, articles, and tools to support you.
         </p>
       </div>
 
       {/* Search and Filters */}
-      <div className="mb-8 space-y-4">
+      <div className="mb-8 space-y-4" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -197,7 +197,7 @@ export function ResourceHub() {
 
         <div className="flex flex-wrap gap-4">
           <div>
-            <label className="text-sm font-medium mb-2 block">Category</label>
+            <label className="text-sm font-medium mb-2 block" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>Category</label>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <Button
@@ -214,7 +214,7 @@ export function ResourceHub() {
             </div>
           </div>
 
-          <div>
+          <div style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             <label className="text-sm font-medium mb-2 block">Language</label>
             <div className="flex flex-wrap gap-2">
               {languages.map((lang) => (
@@ -234,7 +234,7 @@ export function ResourceHub() {
       </div>
 
       {/* Resources Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
         {filteredResources.map((resource) => {
           const TypeIcon = getTypeIcon(resource.type);
           const typeColor = getTypeColor(resource.type);
@@ -311,8 +311,8 @@ export function ResourceHub() {
       {filteredResources.length === 0 && (
         <div className="text-center py-12">
           <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No resources found</h3>
-          <p className="text-muted-foreground">
+          <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>No resources found</h3>
+          <p className="text-muted-foreground"style={{ fontFamily: "'Raleway', 'sans-serif'" , fontWeight: 500}}>
             Try adjusting your search terms or filters to find relevant resources.
           </p>
         </div>
