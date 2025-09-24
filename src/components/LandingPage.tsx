@@ -77,13 +77,13 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
     {
       name: 'Priya Sharma', // Updated name
       role: 'Computer Science Student',
-      content: 'zen became my safe haven during exam stress. The AI felt like talking to a caring friend who was always there to listen. I finally felt understood.',
+      content: 'ZEN became my safe haven during exam stress. The AI felt like talking to a caring friend who was always there to listen. I finally felt understood.',
       rating: 5
     },
     {
       name: 'Rohan Verma', // Updated name
       role: 'Engineering Student',
-      content: 'I was hesitant at first, but zen made me feel genuinely cared for. The counselors didn\'t just help - they really got what I was going through as a student.',
+      content: 'I was hesitant at first, but ZEN made me feel genuinely cared for. The counselors didn\'t just help - they really got what I was going through as a student.',
       rating: 5
     },
     {
@@ -154,7 +154,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                 <Heart className="w-5 h-5 text-primary-foreground" />
               </div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                zen
+                ZEN
               </h1>
             </div>
 
@@ -311,8 +311,8 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
                 >
                   You Don't Have to Face This Alone
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed" style={{ fontFamily: "'Raleway', 'sans-serif'" }}>
-                  We understand the unique challenges you face as an Indian college student. zen is your trusted companion - here to listen, support, and guide you toward better mental wellness.
+                <p className="text-xl text-muted-foreground leading-relaxed">
+                  We understand the unique challenges you face as an Indian college student. ZEN is your trusted companion - here to listen, support, and guide you toward better mental wellness.
                 </p>
               </div>
 
@@ -443,8 +443,8 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4" style={{ fontFamily: "'Yeseva One', 'cursive'" ,color:"#e57474"}}>
               Stories from Students Just Like You
             </h2>
-            <p className="text-xl text-muted-foreground" style={{ fontFamily: "'Raleway', 'sans-serif'" }}>
-              Hear from fellow students who found their strength and peace of mind with zen by their side.
+            <p className="text-xl text-muted-foreground">
+              Hear from fellow students who found their strength and peace of mind with ZEN by their side.
             </p>
           </div>
 
@@ -483,7 +483,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
             Ready to Feel Like Yourself Again?
           </h2>
           <p className="text-xl text-primary-foreground/90 mb-8">
-            Thousands of students have already found their peace and confidence with zen. We're here, ready to walk this journey with you too.
+            Thousands of students have already found their peace and confidence with ZEN. We're here, ready to walk this journey with you too.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -517,7 +517,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  zen was created specifically to address the unique mental health challenges faced by college students in India. We understand the academic pressure, family expectations, career anxiety, and social challenges that you navigate every day.
+                  ZEN was created specifically to address the unique mental health challenges faced by college students in India. We understand the academic pressure, family expectations, career anxiety, and social challenges that you navigate every day.
                 </p>
                 <p>
                   Our platform combines cutting-edge AI technology with the warmth of human connection, ensuring you have access to support that's both immediate and deeply understanding of your cultural context.
@@ -558,7 +558,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="col-span-2">
-              <h3 className="text-2xl font-bold mb-4">zen</h3>
+              <h3 className="text-2xl font-bold mb-4">ZEN</h3>
               <p className="text-background/70 mb-4">
                 Creating a caring community where every Indian student feels heard, supported, and valued.
               </p>
@@ -588,7 +588,7 @@ export function LandingPage({ onGetStarted, onLogin }: LandingPageProps) {
             </div>
           </div>
           <div className="border-t border-background/20 mt-8 pt-8 text-center text-background/70">
-            <p>&copy; 2024 zen. All rights reserved. Built with love and care for every Indian student.</p>
+            <p>&copy; 2024 ZEN. All rights reserved. Built with love and care for every Indian student.</p>
           </div>
         </div>
       </footer>

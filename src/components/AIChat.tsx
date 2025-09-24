@@ -9,12 +9,7 @@ import {
   Bot,
   User,
   AlertTriangle,
-  Heart,
-  Lightbulb,
-  Clock,
   Shield,
-  Mic,
-  StopCircle
 } from 'lucide-react';
 
 interface Message {
@@ -36,7 +31,6 @@ export function AIChat() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const quickResponses = [
@@ -126,20 +120,6 @@ export function AIChat() {
       setIsTyping(false);
     }, 1500);
   };
-
-  const handleToggleRecording = () => {
-    if (isRecording) {
-      // Stop recording
-      setIsRecording(false);
-      // Simulate transcription and populate the input field
-      setInputValue("This is a simulated voice note transcription.");
-    } else {
-      // Start recording
-      setIsRecording(true);
-      setInputValue(""); // Clear input when starting to record
-    }
-  };
-
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -258,32 +238,16 @@ export function AIChat() {
 
             {/* Input */}
             <div className="flex gap-2 items-center">
-              {isRecording && (
-                <div className="flex items-center gap-2 text-sm text-red-500 animate-pulse">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span>Recording...</span>
-                </div>
-              )}
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder={isRecording ? "Speak now..." : "You can share anything here..."}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage(inputValue)}
-                disabled={isTyping || isRecording}
+                disabled={isTyping}
                 className="flex-1"
               />
               <Button
-                type="button"
-                onClick={handleToggleRecording}
-                disabled={isTyping}
-                size="icon"
-                variant={isRecording ? "destructive" : "outline"}
-              >
-                {isRecording ? <StopCircle className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              </Button>
-              <Button
                 onClick={() => sendMessage(inputValue)}
-                disabled={!inputValue.trim() || isTyping || isRecording}
+                disabled={!inputValue.trim() || isTyping}
                 size="icon"
               >
                 <Send className="h-4 w-4" />

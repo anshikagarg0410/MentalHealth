@@ -12,7 +12,7 @@ import {
   Brain,
   Shield,
   LogOut,
-  User as UserIcon
+  User as UserIcon,
 } from 'lucide-react';
 import { UserData } from '../App';
 
@@ -36,6 +36,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
           { id: 'booking', label: 'Counseling', icon: Calendar },
           { id: 'resources', label: 'Resources', icon: BookOpen },
           { id: 'forum', label: 'Peer Support', icon: Users },
+          { id: 'wellness-tools', label: 'Wellness Tools', icon: Brain },
           { id: 'student-profile', label: 'Profile', icon: UserIcon },
         ];
       case 'counselor':
@@ -61,7 +62,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
 
   const menuItems = getMenuItems();
 
-  const displayName = userData ? (userData.fullName || 'Admin') : '';
+  const displayName = userData ? (userData.fullName || userData.username || 'Admin') : '';
   const fallbackChar = displayName ? displayName.charAt(0).toUpperCase() : '';
 
   const handleProfileClick = () => {

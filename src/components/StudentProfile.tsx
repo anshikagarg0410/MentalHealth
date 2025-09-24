@@ -1,22 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Edit, Save, User, Mail, School, BookOpen, MessageCircle, Shield, Users, Award, Hash } from 'lucide-react';
+import { Edit, Save, User, Mail, School, BookOpen, MessageCircle, Users, Award, Hash } from 'lucide-react';
 import { Switch } from './ui/switch';
+import { UserData } from '../App';
 
-export function StudentProfile() {
+interface StudentProfileProps {
+  userData: UserData | null;
+}
+
+export function StudentProfile({ userData }: StudentProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [studentData, setStudentData] = useState({
-    name: 'Alex Doe',
-    email: 'alex.doe@university.edu',
-    college: 'State University',
-    studentId: '12345678',
-    department: 'Computer Science',
-    yearOfStudy: '3rd Year',
+    name: '',
+    email: '',
+    college: '',
+    studentId: '',
+    department: '',
+    yearOfStudy: '',
   });
+
+  useEffect(() => {
+    if (userData) {
+      setStudentData({
+        name: userData.fullName || userData.username || '',
+        email: userData.email || '',
+        college: userData.college || '',
+        studentId: userData.studentId || '',
+        department: userData.department || '',
+        yearOfStudy: userData.yearOfStudy || '',
+      });
+    }
+  }, [userData]);
+  
   const [privacySettings, setPrivacySettings] = useState({
     anonymousPosts: true,
     shareActivity: false,
@@ -69,7 +88,7 @@ export function StudentProfile() {
         <CardHeader>
           <div className="flex items-center gap-4">
             <Avatar>
-              <AvatarImage src="https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Alex" alt="@alexdoe" />
+              <AvatarImage src={`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${studentData.name}`} alt={studentData.name} />
               <AvatarFallback>{studentData.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>

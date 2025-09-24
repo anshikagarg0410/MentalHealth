@@ -1,27 +1,52 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Input } from './ui/input';
 import {
   MessageCircle,
   Calendar,
   BookOpen,
   Users,
+  X,
+  Edit2,
+  Save,
 } from 'lucide-react';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from './ui/carousel';
 
 interface DashboardProps {
   onViewChange: (view: string) => void;
 }
 
 export function Dashboard({ onViewChange }: DashboardProps) {
-  const [selectedMood, setSelectedMood] = useState<string | null>(null);
+  const [moodMessage, setMoodMessage] = useState<string>('');
+  const [showMoodCheckin, setShowMoodCheckin] = useState(true);
+  const [showMoodMessage, setShowMoodMessage] = useState(false);
+  const [dailyIntention, setDailyIntention] = useState('');
+  const [isEditingIntention, setIsEditingIntention] = useState(false);
+
+  useEffect(() => {
+    const todayString = new Date().toDateString();
+
+    // Daily Intention logic
+    const savedIntention = localStorage.getItem('dailyIntention');
+    const savedIntentionDate = localStorage.getItem('dailyIntentionDate');
+
+    if (savedIntention && savedIntentionDate === todayString) {
+      setDailyIntention(savedIntention);
+      setIsEditingIntention(false);
+    } else {
+      setDailyIntention('');
+      setIsEditingIntention(true);
+    }
+  }, []);
+  
+  const handleSaveIntention = () => {
+    if (dailyIntention.trim()) {
+        localStorage.setItem('dailyIntention', dailyIntention);
+        localStorage.setItem('dailyIntentionDate', new Date().toDateString());
+        setIsEditingIntention(false);
+    }
+  };
+
 
   const handleCampusCall = () => {
     alert('Campus Counseling Center\nPhone: (555) 123-HELP\n\nWould you like to be connected?');
@@ -69,28 +94,47 @@ export function Dashboard({ onViewChange }: DashboardProps) {
     { name: 'Awful', emoji: '😠' },
   ];
 
-  const positiveQuotes = [
-    {
-      quote: "The best way to predict the future is to create it.",
-      author: "Peter Drucker",
-      image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
-    },
-    {
-      quote: "Your limitation—it's only your imagination.",
-      author: "Unknown",
-      image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
-    },
-    {
-      quote: "Push yourself, because no one else is going to do it for you.",
-      author: "Unknown",
-      image: "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
-    },
-    {
-      quote: "Great things never come from comfort zones.",
-      author: "Unknown",
-      image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
-    }
-  ];
+  const moodMessages: Record<string, string[]> = {
+    Amazing: [
+      "That's fantastic! Keep shining brightly.",
+      "Awesome! Whatever you're doing, it's working.",
+      "Wonderful! Let's make today even better."
+    ],
+    Good: [
+      "Glad to hear it! Keep that positive energy flowing.",
+      "That's great! Keep riding that good wave.",
+      "Good to hear! Let's keep the momentum going."
+    ],
+    Okay: [
+      "Okay is a perfectly valid way to feel. Be gentle with yourself.",
+      "Thanks for checking in. Remember, it's okay to not be 100% all the time.",
+      "An 'okay' day is a day of balance. You're doing just fine."
+    ],
+    Sad: [
+      "It's brave to admit you're feeling sad. We're here for you.",
+      "Sending you a little extra strength today. It's okay to feel this way.",
+      "Remember, even on cloudy days, the sun is still there. Take your time."
+    ],
+    Awful: [
+      "I'm so sorry you're feeling this way. Please be kind to yourself today.",
+      "It's tough right now, but this feeling won't last forever. You are resilient.",
+      "Remember to breathe. You've survived all your bad days so far."
+    ]
+  };
+
+  const handleMoodSelection = (mood: string) => {
+    const messages = moodMessages[mood];
+    const newMoodMessage = messages[Math.floor(Math.random() * messages.length)];
+    setMoodMessage(newMoodMessage);
+    setShowMoodCheckin(false);
+    setShowMoodMessage(true);
+  };
+  
+  const handleCloseMoodMessage = () => {
+    setShowMoodMessage(false);
+  };
+  
+  const shouldShowMoodComponent = showMoodCheckin || showMoodMessage;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
@@ -116,7 +160,7 @@ export function Dashboard({ onViewChange }: DashboardProps) {
           </div>
         </div>
       </div>
-
+      
       {/* Quick Actions */}
       <div>
         <h2 className="text-2xl mb-6">What's on your mind?</h2>
@@ -146,77 +190,107 @@ export function Dashboard({ onViewChange }: DashboardProps) {
         </div>
       </div>
 
-      {/* Mood Check-in */}
-      <div>
-        <h2 className="text-2xl mb-6">Daily Check-in</h2>
-        <Card>
+      <div className={`grid ${shouldShowMoodComponent ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8`}>
+        {/* Mood Check-in */}
+        {shouldShowMoodComponent && (
+            <div>
+            {showMoodCheckin ? (
+                <Card className="h-full">
+                <CardHeader>
+                    <CardTitle>Daily Check-in</CardTitle>
+                    <CardDescription>
+                    How are you feeling today?
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4">
+                    {moods.map((mood) => (
+                        <Button
+                        key={mood.name}
+                        variant={'secondary'}
+                        className="w-full h-24 flex flex-col gap-2 items-center justify-center transition-all"
+                        onClick={() => handleMoodSelection(mood.name)}
+                        >
+                        <span className="text-4xl">{mood.emoji}</span>
+                        <span className="text-xs font-medium">
+                            {mood.name}
+                        </span>
+                        </Button>
+                    ))}
+                    </div>
+                </CardContent>
+                </Card>
+            ) : ( 
+                showMoodMessage && (
+                    <Card className="h-full">
+                    <CardHeader className="flex flex-row items-start justify-between">
+                        <div>
+                        <CardTitle>Daily Check-in</CardTitle>
+                        <CardDescription>
+                            Thanks for sharing. Here's a little note for you:
+                        </CardDescription>
+                        </div>
+                        <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={handleCloseMoodMessage}
+                        >
+                        <X className="h-4 w-4" />
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-lg italic text-center text-primary">"{moodMessage}"</p>
+                    </CardContent>
+                    </Card>
+                )
+            )}
+            </div>
+        )}
+
+        {/* Daily Intention */}
+        <Card className={`bg-white dark:bg-purple-950/30 border-pink-200 dark:border-pink-800 h-full ${!shouldShowMoodComponent ? 'md:col-span-2' : ''}`}>
           <CardHeader>
-            <CardTitle>How are you feeling today?</CardTitle>
-            <CardDescription>
-              {selectedMood
-                ? `Thanks for sharing that you're feeling ${selectedMood.toLowerCase()}. We're here for you.`
-                : "Tracking your mood can help you understand it better."}
-            </CardDescription>
+            <CardTitle>Your Daily Intention</CardTitle>
+            <CardDescription>A personal motivational message to guide your day.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-5 gap-2 sm:gap-4">
-              {moods.map((mood) => {
-                return (
-                  <Button
-                    key={mood.name}
-                    variant={selectedMood === mood.name ? 'default' : 'secondary'}
-                    className="w-full h-24 flex flex-col gap-2 items-center justify-center transition-all"
-                    onClick={() => setSelectedMood(mood.name)}
-                  >
-                    <span className="text-4xl">{mood.emoji}</span>
-                    <span className="text-xs font-medium">
-                      {mood.name}
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
+            {isEditingIntention ? (
+              <div className="flex items-center gap-2">
+                <Input
+                  type="text"
+                  value={dailyIntention}
+                  onChange={(e) => setDailyIntention(e.target.value)}
+                  placeholder="Write a short motivational message..."
+                  maxLength={100}
+                  className="bg-white/50"
+                  onKeyPress={(e) => e.key === 'Enter' && handleSaveIntention()}
+                />
+                <Button size="icon" onClick={handleSaveIntention}>
+                  <Save className="h-4 w-4" />
+                </Button>
+              </div>
+            ) : dailyIntention ? (
+              <div className="flex items-center justify-between">
+                <p className="text-lg italic text-purple-800 dark:text-purple-200 font-medium">
+                  "{dailyIntention}"
+                </p>
+                <Button size="icon" variant="ghost" onClick={() => setIsEditingIntention(true)}>
+                  <Edit2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ) : (
+                 <div className="text-center text-purple-700">
+                    <p>You haven't set an intention for today.</p>
+                    <Button variant="link" className="text-purple-700" onClick={() => setIsEditingIntention(true)}>Set one now</Button>
+                 </div>
+            )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Featured Content */}
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>A Moment for You</CardTitle>
-            <CardDescription>Some inspiration to brighten your day</CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center p-0">
-            <Carousel className="w-full max-w-sm">
-              <CarouselContent>
-                {positiveQuotes.map((item, index) => (
-                  <CarouselItem key={index}>
-                    <div className="p-1">
-                      <div className="relative h-64 rounded-lg overflow-hidden">
-                        <ImageWithFallback
-                          src={item.image}
-                          alt={`Inspirational quote background ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center p-4">
-                          <blockquote className="text-center text-white">
-                            <p className="text-lg font-semibold italic">"{item.quote}"</p>
-                            <cite className="mt-2 block text-sm opacity-80 not-italic">- {item.author}</cite>
-                          </blockquote>
-                        </div>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
-              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
-            </Carousel>
-          </CardContent>
-        </Card>
-
-        <Card>
+      {/* Need to Talk Section */}
+      <Card>
           <CardHeader>
             <CardTitle>Need to Talk to Someone?</CardTitle>
             <CardDescription>Help is always available.</CardDescription>
@@ -240,7 +314,6 @@ export function Dashboard({ onViewChange }: DashboardProps) {
             </div>
           </CardContent>
         </Card>
-      </div>
     </div>
   );
 }

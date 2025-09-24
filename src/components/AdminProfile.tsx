@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -14,9 +14,18 @@ interface AdminProfileProps {
 export function AdminProfile({ userData }: AdminProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: userData?.fullName || 'Administrator',
-    email: userData?.email || '',
+    fullName: '',
+    email: '',
   });
+
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        fullName: userData.fullName || 'Administrator',
+        email: userData.email || '',
+      });
+    }
+  }, [userData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
