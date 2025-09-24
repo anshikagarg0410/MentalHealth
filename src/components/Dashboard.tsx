@@ -17,7 +17,6 @@ interface DashboardProps {
 }
 
 export function Dashboard({ onViewChange }: DashboardProps) {
-  // Removed unused selectedMood state
   const [moodMessage, setMoodMessage] = useState<string>('');
   const [showMoodCheckin, setShowMoodCheckin] = useState(true);
   const [showMoodMessage, setShowMoodMessage] = useState(false);
@@ -27,17 +26,6 @@ export function Dashboard({ onViewChange }: DashboardProps) {
   useEffect(() => {
     const todayString = new Date().toDateString();
 
-    // Mood Check-in logic
-    const lastCheckinDateStr = localStorage.getItem('lastMoodCheckinDate');
-    if (lastCheckinDateStr === todayString) {
-      setShowMoodCheckin(false);
-      const savedMessage = localStorage.getItem('messageForToday');
-      if (savedMessage) {
-        setMoodMessage(savedMessage);
-        setShowMoodMessage(true);
-      }
-    }
-
     // Daily Intention logic
     const savedIntention = localStorage.getItem('dailyIntention');
     const savedIntentionDate = localStorage.getItem('dailyIntentionDate');
@@ -46,7 +34,6 @@ export function Dashboard({ onViewChange }: DashboardProps) {
       setDailyIntention(savedIntention);
       setIsEditingIntention(false);
     } else {
-      // If it's a new day, clear the old intention and open for editing
       setDailyIntention('');
       setIsEditingIntention(true);
     }
@@ -141,10 +128,12 @@ export function Dashboard({ onViewChange }: DashboardProps) {
     setMoodMessage(newMoodMessage);
     setShowMoodCheckin(false);
     setShowMoodMessage(true);
-    localStorage.setItem('lastMoodCheckinDate', new Date().toDateString());
-    localStorage.setItem('messageForToday', newMoodMessage);
   };
-
+  
+  const handleCloseMoodMessage = () => {
+    setShowMoodMessage(false);
+  };
+  
   const shouldShowMoodComponent = showMoodCheckin || showMoodMessage;
 
   return (
@@ -231,28 +220,30 @@ export function Dashboard({ onViewChange }: DashboardProps) {
                     </div>
                 </CardContent>
                 </Card>
-            ) : ( // This implies showMoodMessage is true
-                <Card className="h-full">
-                <CardHeader className="flex flex-row items-start justify-between">
-                    <div>
-                    <CardTitle>Daily Check-in</CardTitle>
-                    <CardDescription>
-                        Thanks for sharing. Here's a little note for you:
-                    </CardDescription>
-                    </div>
-                    <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6"
-                    onClick={() => setShowMoodMessage(false)}
-                    >
-                    <X className="h-4 w-4" />
-                    </Button>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-lg italic text-center text-primary">"{moodMessage}"</p>
-                </CardContent>
-                </Card>
+            ) : ( 
+                showMoodMessage && (
+                    <Card className="h-full">
+                    <CardHeader className="flex flex-row items-start justify-between">
+                        <div>
+                        <CardTitle>Daily Check-in</CardTitle>
+                        <CardDescription>
+                            Thanks for sharing. Here's a little note for you:
+                        </CardDescription>
+                        </div>
+                        <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={handleCloseMoodMessage}
+                        >
+                        <X className="h-4 w-4" />
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-lg italic text-center text-primary">"{moodMessage}"</p>
+                    </CardContent>
+                    </Card>
+                )
             )}
             </div>
         )}
@@ -326,4 +317,3 @@ export function Dashboard({ onViewChange }: DashboardProps) {
     </div>
   );
 }
-
