@@ -5386,13 +5386,13 @@
   --card-foreground: #2d3748;
   --popover: #fff;
   --popover-foreground: #2d3748;
-  --primary: #e57373;
+  --primary :rgba(187, 28, 52,0.7);
   --primary-foreground: #fff;
   --secondary: #f4d5c9;
   --secondary-foreground: #2d3748;
   --muted: #e0f7fa;
   --muted-foreground: #4a5568;
-  --accent: #4db6ac;
+  --accent: #db6281;
   --accent-foreground: #fff;
   --destructive: #e53e3e;
   --destructive-foreground: #fff;

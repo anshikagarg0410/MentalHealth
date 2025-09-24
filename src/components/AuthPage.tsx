@@ -113,7 +113,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
           return false;
         }
       } else if (formData.userType === 'admin') {
-        if (!formData.adminCode || formData.adminCode !== 'MINDCARE2024') {
+        if (!formData.adminCode || formData.adminCode !== 'zen2024') {
           setError('Invalid admin access code');
           return false;
         }
@@ -212,7 +212,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
               <Heart className="w-6 h-6 text-primary-foreground" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              MindCare
+              zen
             </h1>
           </div>
           <p className="text-muted-foreground">
@@ -549,7 +549,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
                   <div className="flex items-center space-x-2">
                     {getUserTypeIcon(formData.userType)}
                     <span>
-                      {activeTab === 'login' ? 'Welcome Me Back' : 'Join MindCare'}
+                      {activeTab === 'login' ? 'Welcome Me Back' : 'Join zen'}
                     </span>
                   </div>
                 )}
@@ -559,7 +559,7 @@ export function AuthPage({ onLogin, onBack }: AuthPageProps) {
             {/* Footer */}
             <div className="mt-6 text-center text-sm text-muted-foreground">
               <p>
-                {activeTab === 'login' ? "New to MindCare? " : "Already part of our community? "}
+                {activeTab === 'login' ? "New to zen? " : "Already part of our community? "}
                 <Button
                   variant="link"
                   className="p-0 h-auto text-primary"

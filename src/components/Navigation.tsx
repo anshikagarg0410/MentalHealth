@@ -99,7 +99,7 @@ export function Navigation({ currentView, onViewChange, userType = 'student', on
               <Brain className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">MindCare</h2>
+              <h2 className="text-lg font-semibold text-foreground">zen</h2>
               <p className="text-sm text-muted-foreground">Campus Wellness</p>
             </div>
           </div>

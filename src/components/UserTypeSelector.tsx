@@ -72,7 +72,7 @@ export function UserTypeSelector({ onSelectUserType }: UserTypeSelectorProps) {
               <Brain className="h-8 w-8 text-primary-foreground" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold text-primary mb-4">MindCare</h1>
+          <h1 className="text-4xl font-bold text-primary mb-4">zen</h1>
           <p className="text-xl text-muted-foreground mb-2">
             Digital Mental Health Support Platform
           </p>
